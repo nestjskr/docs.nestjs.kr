@@ -1,6 +1,6 @@
 ### Decorators
 
-All of the available OpenAPI decorators have an `Api` prefix to distinguish them from the core decorators. Below is a full list of the exported decorators along with a designation of the level at which the decorator may be applied.
+모든 OpenAPI 의 decorator 들은 다른 주요 decorator 들과 구별하기 위해, `Api` 라는 접두어를 앞에 붙입니다. 하단의 항목은 사용할 수 있는 전체 decorator 들을 적용 가능한 위치에 따라 정리한 표입니다.
 
 |                          |                     |
 | ------------------------ | ------------------- |
