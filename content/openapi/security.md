@@ -1,6 +1,6 @@
-### Security
+### 보안
 
-To define which security mechanisms should be used for a specific operation, use the `@ApiSecurity()` decorator.
+특정 작업에 사용할 보안 메커니즘을 정의하려면 `@ApiSecurity()` 데코레이터를 사용하십시오.
 
 ```typescript
 @ApiSecurity('basic')
@@ -8,7 +8,7 @@ To define which security mechanisms should be used for a specific operation, use
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+어플리케이션을 실행하기 전에 `DocumentBuilder`를 사용하여 기본 문서에 보안 정의를 추가해야 합니다.
 
 ```typescript
 const options = new DocumentBuilder().addSecurity('basic', {
@@ -17,11 +17,11 @@ const options = new DocumentBuilder().addSecurity('basic', {
 });
 ```
 
-Some of the most popular authentication techniques are built-in (e.g., `basic` and `bearer`) and therefore you don't have to define security mechanisms manually as shown above.
+주로 사용되는 인증 방식 중 일부는 빌트인(예: `basic` 및 `bearer`)이므로 위와 같이 보안 메커니즘을 직접 정의할 필요가 없습니다.
 
-#### Basic authentication
+#### Basic 인증
 
-To enable basic authentication, use `@ApiBasicAuth()`.
+Basic 인증을 사용하려면 `@ApiBasicAuth()`를 사용하십시오.
 
 ```typescript
 @ApiBasicAuth()
@@ -29,15 +29,15 @@ To enable basic authentication, use `@ApiBasicAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+어플리케이션을 실행하기 전에 `DocumentBuilder`를 사용하여 기본 문서에 보안 정의를 추가해야 합니다.
 
 ```typescript
 const options = new DocumentBuilder().addBasicAuth();
 ```
 
-#### Bearer authentication
+#### Bearer 인증
 
-To enable bearer authentication, use `@ApiBearerAuth()`.
+Bearer 인증을 사용하려면, `@ApiBearerAuth()`를 사용하십시오.
 
 ```typescript
 @ApiBearerAuth()
@@ -45,15 +45,15 @@ To enable bearer authentication, use `@ApiBearerAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+어플리케이션을 실행하기 전에 `DocumentBuilder`를 사용하여 기본 문서에 보안 정의를 추가해야 합니다.
 
 ```typescript
 const options = new DocumentBuilder().addBearerAuth();
 ```
 
-#### OAuth2 authentication
+#### OAuth2 인증
 
-To enable OAuth2, use `@ApiOAuth2()`.
+OAuth2를 사용하려면, `@ApiOAuth2()`를 사용하십시오.
 
 ```typescript
 @ApiOAuth2(['pets:write'])
@@ -61,15 +61,15 @@ To enable OAuth2, use `@ApiOAuth2()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+어플리케이션을 실행하기 전에 `DocumentBuilder`를 사용하여 기본 문서에 보안 정의를 추가해야 합니다.
 
 ```typescript
 const options = new DocumentBuilder().addOAuth2();
 ```
 
-#### Cookie authentication
+#### Cookie 인증
 
-To enable cookie authentication, use `@ApiCookieAuth()`.
+Cookie 인증을 사용하려면, `@ApiCookieAuth()`를 사용하십시오.
 
 ```typescript
 @ApiCookieAuth()
@@ -77,7 +77,7 @@ To enable cookie authentication, use `@ApiCookieAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+어플리케이션을 실행하기 전에 `DocumentBuilder`를 사용하여 기본 문서에 보안 정의를 추가해야 합니다.
 
 ```typescript
 const options = new DocumentBuilder().addCookieAuth('optional-session-id');
