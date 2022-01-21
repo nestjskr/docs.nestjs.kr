@@ -1,12 +1,13 @@
 ### Controllers
 
-Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
+컨트롤러는 들어오는 **requests**를 적절히 핸들링하고 **responses**를 클라이언트로 리턴해주는 역할을 지니고 있습니다.
 
 <figure><img src="/assets/Controllers_1.png" /></figure>
 
-A controller's purpose is to receive specific requests for the application. The **routing** mechanism controls which controller receives which requests. Frequently, each controller has more than one route, and different routes can perform different actions.
+컨트롤러의 목적은 application을 위한 requests를 받아오는 데 있습니다. **routing** 메커니즘은 어떤 컨트롤러가 어떤 requests를 받아오는지를 제어합니다.
+많은 경우, 각각의 컨트롤러는 하나 이상의 라우트를 가지고, 각각의 라우트는 고유한 목적을 가지고 동작합니다.
 
-In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required metadata and enable Nest to create a routing map (tie requests to the corresponding controllers).
+기본적 형태의 컨트롤러를 만들기 위해, 클래스와 데코레이터를 사용합니다. 데코레이터는 클래스와 클래스가 필요한 메타데이터를 연결시키고, 네스트가 라우팅 맵을 만들 수 있도록 합니다(requests와 적절한 컨트롤러를 연결시켜줍니다).
 
 > info **Hint** For quickly creating a CRUD controller with the [validation](https://docs.nestjs.com/techniques/validation) built-in, you may use the CLI's [CRUD generator](https://docs.nestjs.com/recipes/crud-generator#crud-generator): `nest g resource [name]`.
 
