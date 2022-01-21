@@ -7,7 +7,7 @@ const app = await NestFactory.create(AppModule);
 app.setGlobalPrefix("v1");
 ```
 
-다음 구성을 사용하여 전역 접두사(prefix)에서 경로를 제외할 수 있습니다.
+다음 구성을 사용해 전역 접두사(prefix)에서 경로를 제외할 수 있습니다.
 
 ```typescript
 app.setGlobalPrefix("v1", {
