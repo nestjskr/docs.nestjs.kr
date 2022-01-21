@@ -1,33 +1,33 @@
-### Migration guide
+### 마이그레이션 가이드
 
-If you're currently using `@nestjs/swagger@3.*`, note the following breaking/API changes in version 4.0.
+`@nestjs/swagger@3.*` 를 사용하고 있다면, 버전 4.0 에서는 하단의 중요한 변화들이 있다는 점을 유념해야 합니다.
 
-#### Breaking changes
+#### 중요한 변화들
 
-The following decorators have been changed/renamed:
+다음의 decorator 들은 기능 혹은 이름이 변경되었습니다.
 
-- `@ApiModelProperty` is now `@ApiProperty`
-- `@ApiModelPropertyOptional` is now `@ApiPropertyOptional`
-- `@ApiResponseModelProperty` is now `@ApiResponseProperty`
-- `@ApiImplicitQuery` is now `@ApiQuery`
-- `@ApiImplicitParam` is now `@ApiParam`
-- `@ApiImplicitBody` is now `@ApiBody`
-- `@ApiImplicitHeader` is now `@ApiHeader`
-- `@ApiOperation({{ '{' }} title: 'test' {{ '}' }})` is now `@ApiOperation({{ '{' }} summary: 'test' {{ '}' }})`
-- `@ApiUseTags` is now `@ApiTags`
+- `@ApiModelProperty` 는 `@ApiProperty` 로 이름이 변경되었습니다.
+- `@ApiModelPropertyOptional` 은 `@ApiPropertyOptional` 로 이름이 변경되었습니다.
+- `@ApiResponseModelProperty` 는 `@ApiResponseProperty` 로 이름이 변경되었습니다.
+- `@ApiImplicitQuery` 는 `@ApiQuery` 로 이름이 변경되었습니다.
+- `@ApiImplicitParam` 은 `@ApiParam` 로 이름이 변경되었습니다.
+- `@ApiImplicitBody` 는 `@ApiBody` 로 이름이 변경되었습니다.
+- `@ApiImplicitHeader` 는 `@ApiHeader` 로 이름이 변경되었습니다.
+- `@ApiOperation({{ '{' }} title: 'test' {{ '}' }})` 은 `@ApiOperation({{ '{' }} summary: 'test' {{ '}' }})` 로 이름이 변경되었습니다.
+- `@ApiUseTags` 는 `@ApiTags` 이름이 변경되었습니다.
 
-`DocumentBuilder` breaking changes (updated method signatures):
+`DocumentBuilder` 의 중요한 변화들 (변경된 method signature들):
 
 - `addTag`
 - `addBearerAuth`
 - `addOAuth2`
-- `setContactEmail` is now `setContact`
-- `setHost` has been removed
-- `setSchemes` has been removed (use the `addServer` instead, e.g., `addServer('http://')`)
+- `setContactEmail` 은 `setContact` 로 이름이 변경되었습니다.
+- `setHost` 는 삭제되었습니다.
+- `setSchemes` 는 삭제되었습니다. (`addServer` 를 사용하십시오. 예를 들어, `addServer('http://')`와 같이 사용할 수 있습니다.)
 
-#### New methods
+#### 새로운 method들
 
-The following methods have been added:
+다음의 method 들은 추가되었습니다.
 
 - `addServer`
 - `addApiKey`
