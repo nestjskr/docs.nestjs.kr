@@ -38,7 +38,6 @@ constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
 > 정보 **힌트** `Cache` 클래스는 `cache-manager`에서 임포트 합니다. `CACHE_MANAGER` 토큰은 `@nestjs/common` 패키지에서 임포트 합니다.
 
-
 `Cache` 인스턴스(`cache-manager` 패키지) 의 `get` 메소드는 캐시에서 아이템을 갖고오는데 사용합니다. 만약 캐시에 항목이 없으면 `null` 을 반환합니다.
 
 ```typescript
@@ -117,7 +116,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 export class AppModule {}
 ```
 
-#### 캐시 사용자 지정
+#### 커스터마이즈 캐시 
 
 캐시된 모든 데이터에는 고유한 만료 시간이 있습니다. ([TTL](https://en.wikipedia.org/wiki/Time_to_live)). 기본값을 사용자가 정의하려면, options 객체를 `register()` 메소드로 전달합니다.
 
@@ -244,7 +243,7 @@ export class AppModule {}
 
 컴파일 시간에 정적으로 전달하는 대신, 모듈 옵션을 비동기로 전달할 수 있습니다. 이 경우 비동기 구성을 처리하는 여러가지 방법을 제공하는 `registerAsync()`  메소드를 사용합니다.  
 
-팩토리 펑션을 사용합니다:
+팩토리 함수를 사용합니다:
 
 ```typescript
 CacheModule.registerAsync({
