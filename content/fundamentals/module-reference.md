@@ -22,7 +22,7 @@ export class CatsService {
 
 #### Retrieving instances
 
-`ModuleRef` 인스턴스 (이후 **모듈 참조**라고 함.)는 `get()` 메서드를 가집니다. 이 메서드는 인젝션 토큰/클래스 이름을 사용하여  **현재** 모듈에 존재하는 (인스턴스화된)프로바이더, 컨트롤러 또는 인젝터블(e.g., guard, interceptor, etc.)을 조회합니다.
+`ModuleRef` 인스턴스 (이후 **모듈 참조**라고 함.)는 `get()` 메서드를 가집니다. 이 메서드는 인젝션 토큰/클래스 이름을 사용하여 **현재** 모듈에 존재하는 (인스턴스화된)프로바이더, 컨트롤러 또는 인젝터블(e.g., guard, interceptor, etc.)을 조회합니다.
 
 ```typescript
 @@filename(cats.service)
@@ -49,7 +49,7 @@ export class CatsService {
 }
 ```
 
-> warn **경고** `get()` 메서드로 스코프 프로바이더(transient or request-scoped)를 조회하면 안 됩니다. 대신에 <a href="https://docs.nestjs.com/fundamentals/module-ref#resolving-scoped-providers">밑에</a> 서술된 기법을 사용하십시오. 스코프를 컨트롤 하는 방법 배우기 [here](/fundamentals/injection-scopes).
+> warn **경고** `get()` 메서드로 스코프 프로바이더(transient or request-scoped)를 조회하면 안 됩니다. 대신에 <a href="https://docs.nestjs.kr/fundamentals/module-ref#resolving-scoped-providers">밑에</a> 서술된 기법을 사용하십시오. 스코프를 컨트롤 하는 방법 배우기 [here](/fundamentals/injection-scopes).
 
 전역 컨텍스트에서(예를 들어, 프로바이더가 다른 모듈에서 인젝션되었다면) 프로바이더를 조회하기 위해서는 `{ strict: false }` 옵션을 `get()`에 두 번째 인자로 넘겨주십시오.
 
@@ -59,7 +59,7 @@ this.moduleRef.get(Service, { strict: false });
 
 #### Resolving scoped providers
 
-스코프 프로바이더 (transient 또는 request-scoped)를 동적으로 리졸브하기 위해서는 인젝션 토큰을 인자로 넘겨주는`resolve()` 메서드를 사용하십시오., 
+스코프 프로바이더 (transient 또는 request-scoped)를 동적으로 리졸브하기 위해서는 인젝션 토큰을 인자로 넘겨주는`resolve()` 메서드를 사용하십시오.,
 
 ```typescript
 @@filename(cats.service)
@@ -120,7 +120,7 @@ export class CatsService {
 }
 ```
 
-여러 `resolve()`호출을 걸쳐 단일 인스턴스를 생성하고, 이들이 동일한 생성된  DI container sub-tree를 공유하도록 보장하려면 컨텍스트 식별자를 `resolve()` 메서드에 전달하면 됩니다. 컨텍스트 식별자를 생성하기 위해서 `ContextIdFactory` 클래스를 사용하십시오. 이 클래스는 적절한 고유 식별자를 반환하는 `create()` 메서드를 제공합니다.
+여러 `resolve()`호출을 걸쳐 단일 인스턴스를 생성하고, 이들이 동일한 생성된 DI container sub-tree를 공유하도록 보장하려면 컨텍스트 식별자를 `resolve()` 메서드에 전달하면 됩니다. 컨텍스트 식별자를 생성하기 위해서 `ContextIdFactory` 클래스를 사용하십시오. 이 클래스는 적절한 고유 식별자를 반환하는 `create()` 메서드를 제공합니다.
 
 ```typescript
 @@filename(cats.service)
@@ -171,7 +171,7 @@ this.moduleRef.registerRequestByContextId(/* YOUR_REQUEST_OBJECT */, contextId);
 
 #### Getting current sub-tree
 
-경우에 따라 **request context** 안에 있는 request-scoped 프로바이더 인스턴스를 리졸브하고 싶을 수도 있습니다. `CatsService`가 request-scoped 이고 당신이 request-scoped 프로바이더로 표시된`CatsRepository` 인스턴스를 리졸브 하고 싶다고 해봅시다. In order to share the 같은 DI container sub-tree를 공유하기 위해서, (e.g., 위에서 보여준 것과 같이`ContextIdFactory.create()` 함수로 생성했던) 새로운 컨텍스트 식별자를 생성하는 대신 현재 컨텍스트 식별자를 얻어야만 합니다. 현재 컨텍스트 식별자를 얻기 위해서,  `@Inject()` 데코레이더를 사용해서 요청 객체를 주입하는 것으로 시작하십시오.
+경우에 따라 **request context** 안에 있는 request-scoped 프로바이더 인스턴스를 리졸브하고 싶을 수도 있습니다. `CatsService`가 request-scoped 이고 당신이 request-scoped 프로바이더로 표시된`CatsRepository` 인스턴스를 리졸브 하고 싶다고 해봅시다. In order to share the 같은 DI container sub-tree를 공유하기 위해서, (e.g., 위에서 보여준 것과 같이`ContextIdFactory.create()` 함수로 생성했던) 새로운 컨텍스트 식별자를 생성하는 대신 현재 컨텍스트 식별자를 얻어야만 합니다. 현재 컨텍스트 식별자를 얻기 위해서, `@Inject()` 데코레이더를 사용해서 요청 객체를 주입하는 것으로 시작하십시오.
 
 ```typescript
 @@filename(cats.service)
@@ -191,7 +191,7 @@ export class CatsService {
 }
 ```
 
-> info **힌트** 요청 프로바이더에 더 배우고 싶다면 [here](https://docs.nestjs.com/fundamentals/injection-scopes#request-provider).
+> info **힌트** 요청 프로바이더에 더 배우고 싶다면 [here](https://docs.nestjs.kr/fundamentals/injection-scopes#request-provider).
 
 이제, 요청 객체에 기반을 둔 컨텍스트 id를 생성하기 위해 `ContextIdFactory` 클래스의 `getByRequest()` 메서드를 사용하고 컨텍스트 id를 `resolve()` 호출에 전달하십시오:
 
