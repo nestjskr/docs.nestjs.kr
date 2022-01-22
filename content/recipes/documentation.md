@@ -1,6 +1,6 @@
 ### 문서화
 
-**Compodoc**은 Angulaer 애플리케이션을 위한 문서화 도구입니다. Nest와 Angular는 유사한 프로젝트 코드 구조를 공유하므로 **Compodoc**은 Nest 애플리케이션에서도 작동합니다.
+**Compodoc**은 Angular 애플리케이션을 위한 문서화 도구입니다. Nest와 Angular는 유사한 프로젝트 코드 구조를 공유하므로 **Compodoc**은 Nest 애플리케이션에서도 작동합니다.
 
 #### 설정
 
