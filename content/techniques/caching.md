@@ -139,7 +139,7 @@ CacheModule.register({
 
 #### 글로벌 캐시 오버라이드
 
-전역 캐시가 활성화되어 있는 동안에는 경로를 기반으로 자동 생성되는 `CacheKey` 아래에 캐시 항목을 저장합니다. 메소드 별로 특정 캐시 설정 (`@CacheKey()` 과 `@CacheTTL()`)을 재정의 해 개별 컨트롤러 메소드마다 맞춤형 캐싱 전략을 사용할 수 있습니다. [다른 캐시 저장소.](https://docs.nestjs.com/techniques/caching#different-stores)를 사용할 때 필요할 수 있습니다.
+전역 캐시가 활성화되어 있는 동안에는 경로를 기반으로 자동 생성되는 `CacheKey` 아래에 캐시 항목을 저장합니다. 메소드 별로 특정 캐시 설정 (`@CacheKey()` 과 `@CacheTTL()`)을 오버라이드해 개별 컨트롤러 메소드마다 맞춤형 캐싱 전략을 사용할 수 있습니다. [다른 캐시 저장소.](https://docs.nestjs.com/techniques/caching#different-stores)를 사용할 때 필요할 수 있습니다.
 
 ```typescript
 @Controller()
