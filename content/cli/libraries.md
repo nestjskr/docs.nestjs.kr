@@ -1,10 +1,10 @@
 ### Libraries
 
-Many applications need to solve the same general problems, or re-use a modular component in several different contexts. Nest has a few ways of addressing this, but each works at a different level to solve the problem in a way that helps meet different architectural and organizational objectives.
+많은 애플리케이션들은 동일한 일반적인 문제들을 해결하거나, 몇몇 다른 컨텍스트에서 모듈러 컴포넌트들을 재사용할 필요가 있습니다. Nest는 이러한 문제를 해결하는 몇 가지 방법이 있지만, 각 방법들은 다른 구조적, 조직적 목표를 충족시키는데 도움을 주는 방식으로 해당 문제를 해결하기 위해 서로 다른 수준에서 동작합니다.
 
-Nest [modules](/modules) are useful for providing an execution context that enables sharing components within a single application. Modules can also be packaged with [npm](https://npmjs.com) to create a reusable library that can be installed in different projects. This can be an effective way to distribute configurable, re-usable libraries that can be used by different, loosely connected or unaffiliated organizations (e.g., by distributing/installing 3rd party libraries).
+Nest [모듈](/modules)들은 하나의 애플리케이션 내에서 컴포넌트들을 공유를 가능하게하는 실행 컨텍스트를 제공하는데 유용합니다. 모듈들은 또한 다른 프로젝트에 설치할 수 있는 재사용가능한 라이브러리를 생성하기 위해 [npm](https://npmjs.com)으로 패키징될 수 있습니다. 이것은 서로 다르거나, 느슨하게 연결되거나 독립적인 조직에서 사용되는 설정가능하고, 재사용가능한 라이브러리를 배포하는데 효과적인 방법이 될 수 있습니다 (예: 서드파티 라이브러리 배포/설치).
 
-For sharing code within closely organized groups (e.g., within company/project boundaries), it can be useful to have a more lightweight approach to sharing components. Monorepos have arisen as a construct to enable that, and within a monorepo, a **library** provides a way to share code in an easy, lightweight fashion. In a Nest monorepo, using libraries enables easy assembly of applications that share components. In fact, this encourages decomposition of monolithic applications and development processes to focus on building and composing modular components.
+밀접하게 조직된 그룹들 사이에서 코드를 공유하기 위해서, 컴포넌트 공유에 대해 더 가볍게 접근하는 것은 유용할 수 있습니다. Monorepos는 이것을 가능하게 하는 구조로 생겨났고, Monorepo 내에서 라이브러리는 코드를 쉽고, 가벼운 방식으로 공유하는 방법을 제공합니다. Nest monorepo에서, 라이브러리를 사용하는 것은 컴포넌트를 공유하는 애플리케이션의 쉬운 조립을 가능하게 합니다. 실제로, 이것은 모듈러 컴포넌트들을 구축하고 구성하는데 초점을 맞추기 위해 단일 애플리케이션과 개발 프로세스의 분해를 장려합니다.
 
 #### Nest libraries
 
