@@ -1,18 +1,19 @@
 ### Controllers
 
-Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
+컨트롤러는 들어오는 **요청**을 적절히 핸들링하고 **응답**을 클라이언트로 리턴해주는 책임을 지니고 있습니다.
 
 <figure><img src="/assets/Controllers_1.png" /></figure>
 
-A controller's purpose is to receive specific requests for the application. The **routing** mechanism controls which controller receives which requests. Frequently, each controller has more than one route, and different routes can perform different actions.
+컨트롤러의 목적은 application을 위한 요청을 받아오는 데 있습니다. **routing** 메커니즘은 어떤 컨트롤러가 어떤 요청을 받아오는지를 제어합니다.
+많은 경우, 각각의 컨트롤러는 하나 이상의 라우트를 가지고, 각각의 라우트는 고유한 목적을 가지고 동작합니다.
 
-In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required metadata and enable Nest to create a routing map (tie requests to the corresponding controllers).
+기본적 형태의 컨트롤러를 만들기 위해, 클래스와 데코레이터를 사용합니다. 데코레이터는 클래스와 클래스가 필요한 메타데이터를 연결시키고, 네스트가 라우팅 맵을 만들 수 있도록 합니다(요청과 적절한 컨트롤러를 연결시켜줍니다).
 
-> info **Hint** For quickly creating a CRUD controller with the [validation](https://docs.nestjs.com/techniques/validation) built-in, you may use the CLI's [CRUD generator](https://docs.nestjs.com/recipes/crud-generator#crud-generator): `nest g resource [name]`.
+> info **힌트** [밸리데이션](https://docs.nestjs.kr/techniques/validation)이 포함된 CRUD 컨트롤러를 간편하게 만들기 위해 CLI의 [CRUD generator](https://docs.nestjs.kr/recipes/crud-generator#crud-generator): `nest g resource [이름]`을 사용할 수 있습니다.
 
-#### Routing
+#### 라우팅
 
-In the following example we'll use the `@Controller()` decorator, which is **required** to define a basic controller. We'll specify an optional route path prefix of `cats`. Using a path prefix in a `@Controller()` decorator allows us to easily group a set of related routes, and minimize repetitive code. For example, we may choose to group a set of routes that manage interactions with a customer entity under the route `/customers`. In that case, we could specify the path prefix `customers` in the `@Controller()` decorator so that we don't have to repeat that portion of the path for each route in the file.
+다음의 예제에서 기본적인 컨트롤러를 정의하기 위해 필요한 `@Controller()` 데코레이터를 사용해봅니다. 우리는 앞으로 `cats`라는 이름의 접두사를 가진 라우트를 만들 것입니다. `@Controller()` 데코레이터에서 접두사를 이용하는 것은 연관된 라우트들을 그룹화하기 쉽게 만들어주고 코드의 중복을 최소화할 수 있습니다. 예를 들어, `/customers`라는 이름의 접두사 하에서 고객 엔티티와 상호작용하는 라우트 그룹을 다룰 것이라 생각할 수 있습니다. 이런 경우, 한 파일 안에서 각각의 라우트마다 반복하여 접두사를 기입할 필요가 없도록 `@Controller()` 데코레이터에 `customers`를 명시해놓을 수 있습니다.
 
 ```typescript
 @@filename(cats.controller)
@@ -37,7 +38,7 @@ export class CatsController {
 }
 ```
 
-> info **Hint** To create a controller using the CLI, simply execute the `$ nest g controller cats` command.
+> info **힌트** CLI를 이용해 컨트롤러를 만들기 위해서는 `$ nest g controller cats` 명령어를 입력하세요.
 
 The `@Get()` HTTP request method decorator before the `findAll()` method tells Nest to create a handler for a specific endpoint for HTTP requests. The endpoint corresponds to the HTTP request method (GET in this case) and the route path. What is the route path? The route path for a handler is determined by concatenating the (optional) prefix declared for the controller, and any path specified in the method's decorator. Since we've declared a prefix for every route ( `cats`), and haven't added any path information in the decorator, Nest will map `GET /cats` requests to this handler. As mentioned, the path includes both the optional controller path prefix **and** any path string declared in the request method decorator. For example, a path prefix of `customers` combined with the decorator `@Get('profile')` would produce a route mapping for requests like `GET /customers/profile`.
 
