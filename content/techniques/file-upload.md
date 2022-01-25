@@ -1,8 +1,8 @@
-### File upload
+### 파일 업로드
 
-To handle file uploading, Nest provides a built-in module based on the [multer](https://github.com/expressjs/multer) middleware package for Express. Multer handles data posted in the `multipart/form-data` format, which is primarily used for uploading files via an HTTP `POST` request. This module is fully configurable and you can adjust its behavior to your application requirements.
+파일 업로드를 처리하기 위해, 네스트는 익스프레스의 미들웨어인 [multer](https://github.com/expressjs/multer) 에 기반한 빌트인 모듈을 제공합니다. Multer는 HTTP POST 요청을 통해 파일을 업로드 할 때 자주 사용되는 `multipart/form-data` 형식으로 전송된 데이터를 다룹니다. 이 모듈은 사용자의 어플리케이션에 맞게 옵션을 설정하여 사용할 수 있습니다.
 
-> warning **Warning** Multer cannot process data which is not in the supported multipart format (`multipart/form-data`). Also, note that this package is not compatible with the `FastifyAdapter`.
+> warning **주의** Multer cannot process data which is not in the supported multipart format (`multipart/form-data`). Also, note that this package is not compatible with the `FastifyAdapter`.
 
 For better type safety, let's install Multer typings package:
 
