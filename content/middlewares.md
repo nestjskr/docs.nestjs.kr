@@ -1,24 +1,23 @@
 ### Middleware
 
-Middleware is a function which is called **before** the route handler. Middleware functions have access to the [request](https://expressjs.com/en/4x/api.html#req) and [response](https://expressjs.com/en/4x/api.html#res) objects, and the `next()` middleware function in the application’s request-response cycle. The **next** middleware function is commonly denoted by a variable named `next`.
+미들웨어는 라우트 핸들러보다 **먼저** 호출되는 함수입니다. 미들웨어 함수는 [request](https://expressjs.com/en/4x/api.html#req) 및 [response](https://expressjs.com/en/4x/api.html#res) 객체와 애플리케이션의 요청-응답 사이클 안에 있는 `next()` 미들웨어 함수에 접근할 수 있습니다. **next** 미들웨어 함수는 일반적으로 `next` 라는 변수명으로 표시됩니다.
 
 <figure><img src="/assets/Middlewares_1.png" /></figure>
 
-Nest middleware are, by default, equivalent to [express](https://expressjs.com/en/guide/using-middleware.html) middleware. The following description from the official express documentation describes the capabilities of middleware:
+Nest 미들웨어는 기본적으로 [express](https://expressjs.com/en/guide/using-middleware.html) 미들웨어와 동일합니다. 공식 Express 문서에서는 미들웨어의 기능을 다음와 같이 설명합니다:
 
 <blockquote class="external">
-  Middleware functions can perform the following tasks:
+  미들웨어 함수는 다음 작업들을 수행할 수 있습니다:
   <ul>
-    <li>execute any code.</li>
-    <li>make changes to the request and the response objects.</li>
-    <li>end the request-response cycle.</li>
-    <li>call the next middleware function in the stack.</li>
-    <li>if the current middleware function does not end the request-response cycle, it must call <code>next()</code> to
-      pass control to the next middleware function. Otherwise, the request will be left hanging.</li>
+    <li>모든 코드를 실행.</li>
+    <li>요청 및 응답 객체를 변경.</li>
+    <li>요청-응답 사이클을 종료.</li>
+    <li>스택 내 다음 미들웨어 함수를 호출합니다.</li>
+    <li>만약 현재 미들웨어 함수가 요청-응답 사이클을 종료하지 않는 경우, <code>next()</code>를 호출하여 다음 미들웨어 함수에 제어 권한을 전달해야합니다. 그렇지 않으면 해당 요청은 정지된 채로 방치됩니다.</li>
   </ul>
 </blockquote>
 
-You implement custom Nest middleware in either a function, or in a class with an `@Injectable()` decorator. The class should implement the `NestMiddleware` interface, while the function does not have any special requirements. Let's start by implementing a simple middleware feature using the class method.
+함수 또는 `@Injectable()` 데코레이터가 있는 클래스에서 커스텀 Nest 미들웨어를 구현합니다. 클래스는 `NestMiddleware` 인터페이스를 구현해야 하며 함수는 특별한 요구 사항이 없습니다. 클래스 메소드를 이용한 간단한 미들웨어 기능 구현부터 시작하겠습니다.
 
 ```typescript
 @@filename(logger.middleware)
