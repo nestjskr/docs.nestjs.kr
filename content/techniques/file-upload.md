@@ -4,7 +4,7 @@
 
 > warning **주의** Multer는 (`multipart/form-data`) 형식을 지원하지 않는 데이터를 처리할 수 없습니다. 또한, 이 패키지는 `FastifyAdapter`와 호환이 되지 않는 것을 명심하세요.
 
-더 나은 타입 안정성을 위해, Multer 타입 패키지를 설치합시다:
+더 나은 타입 안정성을 위해, Multer 타입 패키지를 설치합니다:
 
 ```shell
 $ npm i -D @types/multer
