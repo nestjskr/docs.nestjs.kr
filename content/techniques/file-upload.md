@@ -12,9 +12,9 @@ $ npm i -D @types/multer
 
 이 패키지를 설치함으로써, 우리는 `Express.Multer.File` 타입을 사용할 수 있습니다. (다음과 같이 타입을 임포트할 수 있습니다 `import {{ '{' }} Express {{ '}' }} from 'express'`).
 
-#### Basic example
+#### 기본 예제
 
-To upload a single file, simply tie the `FileInterceptor()` interceptor to the route handler and extract `file` from the `request` using the `@UploadedFile()` decorator.
+단일 파일을 업로드하기 위해, `FileInterceptor()` 인터셉터를 라우트 핸들러에 연결하고 `@UploadedFile()` 데코레이터를 이용하여 request로 부터 파일을 추출합니다.
 
 ```typescript
 @@filename()
@@ -32,24 +32,24 @@ uploadFile(file) {
 }
 ```
 
-> info **Hint** The `FileInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFile()` decorator is exported from `@nestjs/common`.
+> info **힌트** `FileInterceptor()` 데코레이터는 `@nestjs/platform-express` 패키지에서 export 됩니다. The `@UploadedFile()` 데코레이터는 `@nestjs/common` 패키지에서 export 됩니다.
 
-The `FileInterceptor()` decorator takes two arguments:
+`FileInterceptor()` 데코레이터는 2개의 인수를 받습니다:
 
-- `fieldName`: string that supplies the name of the field from the HTML form that holds a file
-- `options`: optional object of type `MulterOptions`. This is the same object used by the multer constructor (more details [here](https://github.com/expressjs/multer#multeropts)).
+- `fieldName`: 파일이 있는 HTML form에서 필드 이름을 제공하는 문자열
+- `options`: (선택적) `MulterOptions` 타입의 객체입니다. multer 생성자에서 사용되는 것과 같은 객체입니다. (자세히 알아보기 [여기](https://github.com/expressjs/multer#multeropts)).
 
-> warning **Warning** `FileInterceptor()` may not be compatible with third party cloud providers like Google Firebase or others.
+> warning **주의** `FileInterceptor()`는 Google Firebase 등의 타사 클라우드 공급자와 호환되지 않을 수 있습니다.
 
 #### Array of files
 
-To upload an array of files (identified with a single field name), use the `FilesInterceptor()` decorator (note the plural **Files** in the decorator name). This decorator takes three arguments:
+파일의 배열을 업로드 하기 위해 (하나의 필드 이름으로 되어있는), `FilesInterceptor()` 데코레이터를 사용합니다. (데코레이터의 이름이 Files인 것을 확인하세요.). 이 데코레이터는 3개의 인수를 받습니다:
 
-- `fieldName`: as described above
-- `maxCount`: optional number defining the maximum number of files to accept
-- `options`: optional `MulterOptions` object, as described above
+- `fieldName`: 위의 설명과 동일합니다.
+- `maxCount`: (선택적) 허용 할 최대 파일의 수
+- `options`: (선택적) `MulterOptions` 객체, 위의 설명과 동일합니다.
 
-When using `FilesInterceptor()`, extract files from the `request` with the `@UploadedFiles()` decorator.
+`FilesInterceptor()` 를 사용할 때 , `@UploadedFiles()` 데코레이터를 이용하여 request로 부터 파일들을 추출합니다 .
 
 ```typescript
 @@filename()
@@ -67,7 +67,7 @@ uploadFile(files) {
 }
 ```
 
-> info **Hint** The `FilesInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFiles()` decorator is exported from `@nestjs/common`.
+> info **힌트** `FilesInterceptor()` 데코레이터는 `@nestjs/platform-express` 패키지에서 export 됩니다. The `@UploadedFiles()` 데코레이터는 `@nestjs/common` 패키지에서 export 됩니다.
 
 #### Multiple files
 
