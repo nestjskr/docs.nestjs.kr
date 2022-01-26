@@ -14,7 +14,7 @@ $ npm i -D @types/multer
 
 #### 기본 예제
 
-단일 파일을 업로드하기 위해, `FileInterceptor()` 인터셉터를 라우트 핸들러에 연결하고 `@UploadedFile()` 데코레이터를 이용하여 request로 부터 파일을 추출합니다.
+단일 파일을 업로드하기 위해, `FileInterceptor()` 인터셉터를 라우트 핸들러에 연결하고 `@UploadedFile()` 데코레이터를 이용하여 `request` 로 부터 `파일`을 추출합니다.
 
 ```typescript
 @@filename()
@@ -36,20 +36,20 @@ uploadFile(file) {
 
 `FileInterceptor()` 데코레이터는 2개의 인수를 받습니다:
 
-- `fieldName`: 파일이 있는 HTML form에서 필드 이름을 제공하는 문자열
+- `fieldName`: 파일이 있는 HTML form에서 제공하는 필드 이름
 - `options`: (선택적) `MulterOptions` 타입의 객체입니다. multer 생성자에서 사용되는 것과 같은 객체입니다. (자세히 알아보기 [여기](https://github.com/expressjs/multer#multeropts)).
 
-> warning **주의** `FileInterceptor()`는 Google Firebase 등의 타사 클라우드 공급자와 호환되지 않을 수 있습니다.
+> warning **주의** `FileInterceptor()` 는 Google Firebase 등의 타사 클라우드 공급자와 호환되지 않을 수 있습니다.
 
-#### Array of files
+#### 파일 배열
 
-파일의 배열을 업로드 하기 위해 (하나의 필드 이름으로 되어있는), `FilesInterceptor()` 데코레이터를 사용합니다. (데코레이터의 이름이 Files인 것을 확인하세요.). 이 데코레이터는 3개의 인수를 받습니다:
+파일로 이루어진 배열을 업로드 하기 위해 (하나의 필드 이름으로 되어있는), `FilesInterceptor()` 데코레이터를 사용합니다. (데코레이터의 이름이 Files인 것을 확인하세요). 이 데코레이터는 3개의 인수를 받습니다:
 
 - `fieldName`: 위의 설명과 동일합니다.
 - `maxCount`: (선택적) 허용 할 최대 파일의 수
 - `options`: (선택적) `MulterOptions` 객체, 위의 설명과 동일합니다.
 
-`FilesInterceptor()` 를 사용할 때 , `@UploadedFiles()` 데코레이터를 이용하여 request로 부터 파일들을 추출합니다 .
+`FilesInterceptor()` 를 사용할 때 , `@UploadedFiles()` 데코레이터를 이용하여 `request` 로 부터 파일들을 추출합니다 .
 
 ```typescript
 @@filename()
