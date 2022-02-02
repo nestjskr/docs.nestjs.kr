@@ -10,19 +10,19 @@
 $ npm i -D @compodoc/compodoc
 ```
 
-#### Generation
+#### 생성
 
-Generate project documentation using the following command (npm 6 is required for `npx` support). See [the official documentation](https://compodoc.app/guides/usage.html) for more options.
+다음 명령을 사용하여 프로젝트 문서를 생성합니다('npx' 지원을 위해서는 npm 6 필요합니다). 더 많은 옵션은 [공식 문서](https://compodoc.app/guides/usage.html)를 참조하세요.
 
 ```bash
 $ npx @compodoc/compodoc -p tsconfig.json -s
 ```
 
-Open your browser and navigate to [http://localhost:8080](http://localhost:8080). You should see an initial Nest CLI project:
+브라우저를 열고 [http://localhost:8080](http://localhost:8080)으로 이동합니다. 다음과 같은 초기 Nest CLI 프로젝트가 표시됩니다:
 
 <figure><img src="/assets/documentation-compodoc-1.jpg" /></figure>
 <figure><img src="/assets/documentation-compodoc-2.jpg" /></figure>
 
-#### Contribute
+#### 기여
 
-You can participate and contribute to the Compodoc project [here](https://github.com/compodoc/compodoc).
+Compodoc 프로젝트는 [여기](https://github.com/compodoc/compodoc)에서 참여하고 기여할 수 있습니다.
