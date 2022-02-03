@@ -1,20 +1,20 @@
-### File upload
+### 파일 업로드
 
-To handle file uploading, Nest provides a built-in module based on the [multer](https://github.com/expressjs/multer) middleware package for Express. Multer handles data posted in the `multipart/form-data` format, which is primarily used for uploading files via an HTTP `POST` request. This module is fully configurable and you can adjust its behavior to your application requirements.
+파일 업로드를 처리하기 위해, 네스트는 익스프레스의 미들웨어인 [multer](https://github.com/expressjs/multer) 에 기반한 빌트인 모듈을 제공합니다. Multer는 HTTP POST 요청을 통해 파일을 업로드 할 때 자주 사용되는 `multipart/form-data` 형식으로 전송된 데이터를 다룹니다. 이 모듈은 사용자의 어플리케이션에 맞게 옵션을 설정하여 사용할 수 있습니다.
 
-> warning **Warning** Multer cannot process data which is not in the supported multipart format (`multipart/form-data`). Also, note that this package is not compatible with the `FastifyAdapter`.
+> warning **주의** Multer는 (`multipart/form-data`) 형식을 지원하지 않는 데이터를 처리할 수 없습니다. 또한, 이 패키지는 `FastifyAdapter`와 호환이 되지 않는 것을 명심하세요.
 
-For better type safety, let's install Multer typings package:
+더 나은 타입 안정성을 위해, Multer 타입 패키지를 설치합니다:
 
 ```shell
 $ npm i -D @types/multer
 ```
 
-With this package installed, we can now use the `Express.Multer.File` type (you can import this type as follows: `import {{ '{' }} Express {{ '}' }} from 'express'`).
+이 패키지를 설치함으로써, 우리는 `Express.Multer.File` 타입을 사용할 수 있습니다. (다음과 같이 타입을 임포트할 수 있습니다 `import {{ '{' }} Express {{ '}' }} from 'express'`).
 
-#### Basic example
+#### 기본 예제
 
-To upload a single file, simply tie the `FileInterceptor()` interceptor to the route handler and extract `file` from the `request` using the `@UploadedFile()` decorator.
+단일 파일을 업로드하기 위해, `FileInterceptor()` 인터셉터를 라우트 핸들러에 연결하고 `@UploadedFile()` 데코레이터를 이용하여 `request` 로 부터 `파일`을 추출합니다.
 
 ```typescript
 @@filename()
@@ -32,24 +32,24 @@ uploadFile(file) {
 }
 ```
 
-> info **Hint** The `FileInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFile()` decorator is exported from `@nestjs/common`.
+> info **힌트** `FileInterceptor()` 데코레이터는 `@nestjs/platform-express` 패키지에서 export 됩니다. The `@UploadedFile()` 데코레이터는 `@nestjs/common` 패키지에서 export 됩니다.
 
-The `FileInterceptor()` decorator takes two arguments:
+`FileInterceptor()` 데코레이터는 2개의 인수를 받습니다:
 
-- `fieldName`: string that supplies the name of the field from the HTML form that holds a file
-- `options`: optional object of type `MulterOptions`. This is the same object used by the multer constructor (more details [here](https://github.com/expressjs/multer#multeropts)).
+- `fieldName`: 파일이 있는 HTML form에서 제공하는 필드 이름
+- `options`: (선택적) `MulterOptions` 타입의 객체입니다. multer 생성자에서 사용되는 것과 같은 객체입니다. (자세히 알아보기 [여기](https://github.com/expressjs/multer#multeropts)).
 
-> warning **Warning** `FileInterceptor()` may not be compatible with third party cloud providers like Google Firebase or others.
+> warning **주의** `FileInterceptor()` 는 Google Firebase 등의 타사 클라우드 공급자와 호환되지 않을 수 있습니다.
 
-#### Array of files
+#### 파일 배열
 
-To upload an array of files (identified with a single field name), use the `FilesInterceptor()` decorator (note the plural **Files** in the decorator name). This decorator takes three arguments:
+파일로 이루어진 배열을 업로드 하기 위해 (하나의 필드 이름으로 되어있는), `FilesInterceptor()` 데코레이터를 사용합니다. (데코레이터의 이름이 Files인 것을 확인하세요). 이 데코레이터는 3개의 인수를 받습니다:
 
-- `fieldName`: as described above
-- `maxCount`: optional number defining the maximum number of files to accept
-- `options`: optional `MulterOptions` object, as described above
+- `fieldName`: 위의 설명과 동일합니다.
+- `maxCount`: (선택적) 허용 할 최대 파일의 수
+- `options`: (선택적) `MulterOptions` 객체, 위의 설명과 동일합니다.
 
-When using `FilesInterceptor()`, extract files from the `request` with the `@UploadedFiles()` decorator.
+`FilesInterceptor()` 를 사용할 때 , `@UploadedFiles()` 데코레이터를 이용하여 `request` 로 부터 파일들을 추출합니다 .
 
 ```typescript
 @@filename()
@@ -67,7 +67,7 @@ uploadFile(files) {
 }
 ```
 
-> info **Hint** The `FilesInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFiles()` decorator is exported from `@nestjs/common`.
+> info **힌트** `FilesInterceptor()` 데코레이터는 `@nestjs/platform-express` 패키지에서 export 됩니다. The `@UploadedFiles()` 데코레이터는 `@nestjs/common` 패키지에서 export 됩니다.
 
 #### Multiple files
 
