@@ -1,16 +1,16 @@
 ### Providers
 
-Providers are a fundamental concept in Nest. Many of the basic Nest classes may be treated as a provider – services, repositories, factories, helpers, and so on. The main idea of a provider is that it can be **injected** as dependency; this means objects can create various relationships with each other, and the function of "wiring up" instances of objects can largely be delegated to the Nest runtime system.
+프로바이더는 Nest의 기본 개념입니다. 기본 Nest 클래스의 대부분은 서비스, 리포지토리, 팩토리, 도우미 등 프로바이더로 취급될 수 있습니다. 프로바이더의 주요 아이디어는 종속성으로 **주입**할 수 있다는 것입니다. 즉, 객체는 서로 다양한 관계를 생성할 수 있으며 객체의 인스턴스를 "연결"하는 기능은 대부분 Nest 런타임 시스템에 위임될 수 있습니다.
 
 <figure><img src="/assets/Components_1.png" /></figure>
 
-In the previous chapter, we built a simple `CatsController`. Controllers should handle HTTP requests and delegate more complex tasks to **providers**. Providers are plain JavaScript classes that are declared as `providers` in a [module](/modules).
+이전 장에서 우리는 간단한 `CatsController`를 만들었습니다. 컨트롤러는 HTTP 요청을 처리하고 더 복잡한 작업을 **프로바이더**에 위임해야 합니다. 공급자는 [모듈](/modules)에서 `프로바이더'로 선언된 일반 자바스크립트 클래스입니다.
 
-> info **Hint** Since Nest enables the possibility to design and organize dependencies in a more OO-way, we strongly recommend following the [SOLID](https://en.wikipedia.org/wiki/SOLID) principles.
+> 정보 **힌트** Nest를 사용하면 종속성을 보다 OO-방식으로 설계하고 구성할 수 있으므로 [SOLID](https://en.wikipedia.org/wiki/SOLID) 원칙을 따르는 것이 좋습니다.
 
 #### Services
 
-Let's start by creating a simple `CatsService`. This service will be responsible for data storage and retrieval, and is designed to be used by the `CatsController`, so it's a good candidate to be defined as a provider.
+간단한 'CatsService'를 만드는 것으로 시작하겠습니다. 이 서비스는 데이터 저장 및 검색을 담당하며 `CatsController`에서 사용하도록 설계되었으므로 프로바이더로 정의하기에 좋은 후보입니다.
 
 ```typescript
 @@filename(cats.service)
@@ -48,9 +48,9 @@ export class CatsService {
 }
 ```
 
-> info **Hint** To create a service using the CLI, simply execute the `$ nest g service cats` command.
+> 정보 **힌트** CLI를 사용하여 서비스를 생성하려면 `$ nest g service cats` 명령을 실행하면 됩니다.
 
-Our `CatsService` is a basic class with one property and two methods. The only new feature is that it uses the `@Injectable()` decorator. The `@Injectable()` decorator attaches metadata, which declares that `CatsService`  is a class that can be managed by the Nest IoC container. By the way, this example also uses a `Cat` interface, which probably looks something like this:
+우리의 `CatsService`는 하나의 속성과 두 개의 메소드가 있는 기본 클래스입니다. 유일한 새로운 기능은 `@Injectable()` 데코레이터를 사용한다는 것입니다. `@Injectable()` 데코레이터는 `CatsService`가 Nest IoC 컨테이너에서 관리할 수 있는 클래스임을 선언하는 메타데이터를 첨부합니다. 그건 그렇고, 이 예제는 'Cat' 인터페이스도 사용하는데, 아마도 다음과 같을 것입니다:
 
 ```typescript
 @@filename(interfaces/cat.interface)
@@ -61,7 +61,7 @@ export interface Cat {
 }
 ```
 
-Now that we have a service class to retrieve cats, let's use it inside the `CatsController`:
+이제 고양이를 검색하는 서비스 클래스가 있으므로 `CatsController` 내부에서 사용하겠습니다.
 
 ```typescript
 @@filename(cats.controller)
@@ -108,7 +108,7 @@ export class CatsController {
 }
 ```
 
-The `CatsService` is **injected** through the class constructor. Notice the use of the `private` syntax. This shorthand allows us to both declare and initialize the `catsService` member immediately in the same location.
+`CatsService`는 클래스 생성자를 통해 **주입**됩니다. `private` 구문의 사용에 주목하십시오. 이 약식을 사용하면 같은 위치에서 즉시 `catsService` 멤버를 선언하고 초기화할 수 있습니다.
 
 #### Dependency injection
 
