@@ -1,27 +1,27 @@
 ### First steps
 
-In this set of articles, you'll learn the **core fundamentals** of Nest. To get familiar with the essential building blocks of Nest applications, we'll build a basic CRUD application with features that cover a lot of ground at an introductory level.
+이 공식 문서들을 통해, 여러분은 Nest의 **핵심 기본**에 대해 배울 것입니다. Nest 애플리케이션에서 필수 구성 요소를 숙지할 수 있도록, 기본 CRUD 애플리케이션을 구축해 다양한 분야를 포괄하는 기능을 도입하겠습니다.
 
-#### Language
+#### 프로그래밍 언어
 
-We're in love with [TypeScript](https://www.typescriptlang.org/), but above all - we love [Node.js](https://nodejs.org/en/). That's why Nest is compatible with both TypeScript and **pure JavaScript**. Nest takes advantage of the latest language features, so to use it with vanilla JavaScript we need a [Babel](https://babeljs.io/) compiler.
+우린 [TypeScript](https://www.typescriptlang.org/)를 좋아하지만, 무엇보다 [Node.js](https://nodejs.org/en/)를 사랑합니다. 그것이 Nest가 Typescript와 **순수 Javascript** 모두 호환되는 이유입니다. Nest는 최신 언어의 기능의 이점을 활용하기 때문에 vanilla Javascript와 함께 사용하려면 [Babel](https://babeljs.io/) 컴파일러가 필요합니다.
 
-We'll mostly use TypeScript in the examples we provide, but you can always **switch the code snippets** to vanilla JavaScript syntax (simply click to toggle the language button in the upper right hand corner of each snippet).
+제공하는 예제에서는 주로 Typescript를 사용하지만 예제 코드를 vanilla Javascript로 전환할 수도 있습니다(각 code snippet의 오른쪽 상단 모서리에 있는 language 버튼을 클릭해 전환).
 
-#### Prerequisites
+#### 전제 조건
 
-Please make sure that [Node.js](https://nodejs.org/) (>= 10.13.0, except for v13) is installed on your operating system.
+운영 체제에 [Node.js](https://nodejs.org/) (>= 10.13.0, v13 제외)가 설치되어 있는지 확인하세요.
 
 #### Setup
 
-Setting up a new project is quite simple with the [Nest CLI](/cli/overview). With [npm](https://www.npmjs.com/) installed, you can create a new Nest project with the following commands in your OS terminal:
+[Nest CLI](/cli/overview)를 사용하면 새 프로젝트를 설정하는 것이 매우 간단합니다. [npm](https://www.npmjs.com/)이 설치되어 있다면, 다음 명령을 사용해 새 Nest 프로젝트를 생성할 수 있습니다.:
 
 ```bash
 $ npm i -g @nestjs/cli
 $ nest new project-name
 ```
 
-The `project-name` directory will be created, node modules and a few other boilerplate files will be installed, and a `src/` directory will be created and populated with several core files.
+`project-name` 폴더가 생성되고 노드 모듈과 몇 가지 다른 boilerplate 파일들이 설치되며 `src/` 디렉토리가 생성되고 여러 개의 core 파일로 채워집니다.
 
 <div class="file-tree">
   <div class="item">src</div>
@@ -34,17 +34,17 @@ The `project-name` directory will be created, node modules and a few other boile
   </div>
 </div>
 
-Here's a brief overview of those core files:
+다음은 core 파일의 간략한 개요입니다:
 
 |                          |                                                                                                                     |
 | ------------------------ | ------------------------------------------------------------------------------------------------------------------- |
-| `app.controller.ts`      | A basic controller with a single route.                                                                             |
-| `app.controller.spec.ts` | The unit tests for the controller.                                                                                  |
-| `app.module.ts`          | The root module of the application.                                                                                 |
-| `app.service.ts`         | A basic service with a single method.                                                                               |
-| `main.ts`                | The entry file of the application which uses the core function `NestFactory` to create a Nest application instance. |
+| `app.controller.ts`      | 단일 경로를 가진 기본 controller입니다.                                                                             |
+| `app.controller.spec.ts` | controller의 unit test입니다.                                                                                       |
+| `app.module.ts`          | 애플리케이션의 root 모듈입니다.                                                                                     |
+| `app.service.ts`         | 단일 메서드를 사용하는 기본 service입니다.                                                                          |
+| `main.ts`                | core 함수인 `NestFactory`를 사용해 Nest 애플리케이션 인스턴스를 만드는 응용 프로그램의 엔트리 파일입니다.           |
 
-The `main.ts` includes an async function, which will **bootstrap** our application:
+`main.ts` 파일은 async 함수를 포함하며, 이를 통해 응용 프로그램을 **bootstrap** 합니다:
 
 ```typescript
 @@filename(main)
@@ -68,9 +68,9 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To create a Nest application instance, we use the core `NestFactory` class. `NestFactory` exposes a few static methods that allow creating an application instance. The `create()` method returns an application object, which fulfills the `INestApplication` interface. This object provides a set of methods which are described in the coming chapters. In the `main.ts` example above, we simply start up our HTTP listener, which lets the application await inbound HTTP requests.
+Nest 애플리케이션 인스턴스를 생성하기 위해, core 클래스인 `NestFactory`를 사용합니다. `NestFactory`는 애플리케이션 인스턴스를 만들 수 있는 몇 가지 정적 메서드를 노출합니다. `create()` 메서드는 `INestApplication`를 충족하는 애플리케이션 객체를 응답합니다. 이 객체는 다음 장에서 설명하는 메서드 집합을 제공합니다. 위의 `main.ts` 예제에서, 우리는 응용 프로그램이 인바운드 HTTP 요청을 기다릴 수 있도록 HTTP 리스너를 실행합니다.
 
-Note that a project scaffolded with the Nest CLI creates an initial project structure that encourages developers to follow the convention of keeping each module in its own dedicated directory.
+Nest CLI로 구성된 프로젝트는 개발자가 각 모듈을 자체 전용 디렉토리에 보관하는 컨벤션을 따르도록 권장하는 초기 프로젝트 구조를 생성한다는 점에 유의하셔야 합니다.
 
 <app-banner-courses></app-banner-courses>
 
