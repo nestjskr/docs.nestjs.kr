@@ -1,8 +1,8 @@
 ### Injection scopes
 
-For people coming from different programming language backgrounds, it might be unexpected to learn that in Nest, almost everything is shared across incoming requests. We have a connection pool to the database, singleton services with global state, etc. Remember that Node.js doesn't follow the request/response Multi-Threaded Stateless Model in which every request is processed by a separate thread. Hence, using singleton instances is fully **safe** for our applications.
+서로 다른 개발언어 경험을 가진 사람들에게는, 들어오는 모든 요청 간에 거의 모든 것이 공유된다는 사실을 예상하지 못할 수 있습니다. 우리에게는 데이터베이스와의 연결 풀, 전역 상태를 가지는 싱글톤 서비스 등이 있습니다. Node.js는 모든 요청이 각각 분리된 스레드에서 처리되는 Multi-Threaded Stateless 모델을 따르지 않는다는 것을 기억하고 있어야 합니다. 이 때문에, 싱글톤 인스턴스를 사용하는 것이 우리의 애플리케이션에게 전적으로 **안전**합니다.
 
-However, there are edge-cases when request-based lifetime may be the desired behavior, for instance per-request caching in GraphQL applications, request tracking, and multi-tenancy. Injection scopes provide a mechanism to obtain the desired provider lifetime behavior.
+하지만 GraphQL 애플리케이션에서의 요청별 캐싱, 요청 트래킹, 멀티테넌시와 같이 인스턴스가 요청에 기반한 수명을 가지길 바라는 경우도 있습니다.
 
 #### Provider scope
 
@@ -30,7 +30,7 @@ A provider can have any of the following scopes:
 Specify injection scope by passing the `scope` property to the `@Injectable()` decorator options object:
 
 ```typescript
-import { Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope } from "@nestjs/common";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CatsService {}
@@ -60,7 +60,7 @@ Declare controller scope with the `scope` property of the `ControllerOptions` ob
 
 ```typescript
 @Controller({
-  path: 'cats',
+  path: "cats",
   scope: Scope.REQUEST,
 })
 export class CatsController {}
@@ -79,9 +79,9 @@ Imagine the following dependency graph: `CatsController <- CatsService <- CatsRe
 In an HTTP server-based application (e.g., using `@nestjs/platform-express` or `@nestjs/platform-fastify`), you may want to access a reference to the original request object when using request-scoped providers. You can do this by injecting the `REQUEST` object.
 
 ```typescript
-import { Injectable, Scope, Inject } from '@nestjs/common';
-import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
+import { Injectable, Scope, Inject } from "@nestjs/common";
+import { REQUEST } from "@nestjs/core";
+import { Request } from "express";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CatsService {
@@ -92,8 +92,8 @@ export class CatsService {
 Because of underlying platform/protocol differences, you access the inbound request slightly differently for Microservice or GraphQL applications. In [GraphQL](/graphql/quick-start) applications, you inject `CONTEXT` instead of `REQUEST`:
 
 ```typescript
-import { Injectable, Scope, Inject } from '@nestjs/common';
-import { CONTEXT } from '@nestjs/graphql';
+import { Injectable, Scope, Inject } from "@nestjs/common";
+import { CONTEXT } from "@nestjs/graphql";
 
 @Injectable({ scope: Scope.REQUEST })
 export class CatsService {
