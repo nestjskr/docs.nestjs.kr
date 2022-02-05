@@ -1,12 +1,11 @@
-### Injection scopes
+### 스코프 주입하기
 
 서로 다른 개발언어 경험을 가진 사람들에게는, 들어오는 모든 요청 간에 거의 모든 것이 공유된다는 사실을 예상하지 못할 수 있습니다. 우리에게는 데이터베이스와의 연결 풀, 전역 상태를 가지는 싱글톤 서비스 등이 있습니다. Node.js는 모든 요청이 각각 분리된 스레드에서 처리되는 Multi-Threaded Stateless 모델을 따르지 않는다는 것을 기억하고 있어야 합니다. 이 때문에, 싱글톤 인스턴스를 사용하는 것이 우리의 애플리케이션에게 전적으로 **안전**합니다.
 
 하지만 GraphQL 애플리케이션에서의 요청별 캐싱, 요청 트래킹, 멀티테넌시와 같이 인스턴스가 요청에 기반한 수명을 가지길 바라는 경우도 있습니다.
 
-#### Provider scope
+#### 프로바이더의 스코프
 
-A provider can have any of the following scopes:
 프로바이더는 다음 스코프들 중 하나를 가질 수 있습니다:
 
 <table>
@@ -26,7 +25,7 @@ A provider can have any of the following scopes:
 
 > info **힌트** 대부분의 경우에는 싱글톤 스코프를 사용하는 것을 **권장**합니다. 프로바이더를 모든 소비자들과 모든 요청들이 공유한다는 것은 인스턴스의 초기화 작업이 애플리케이션이 구동되는 시점에 딱 한 번 이루어진 후에 그 인스턴스가 캐싱된다는 것을 뜻합니다.
 
-#### Usage
+#### 사용법
 
 주입되는 프로바이더의 스코프를 정하려면 `@Injectable()`데코레이터의 options객체에 `scope`프로퍼티를 넘겨야 합니다:
 
@@ -53,11 +52,11 @@ export class CatsService {}
 
 싱글톤 스코프는 기본으로 적용되기에 따로 명시할 필요가 없습니다. 만약 프로바이더가 싱글톤 스코프를 가지도록 명시하고 싶다면, `scope`프로퍼티의 값으로 `Scope.DEFAULT`를 넣으면 됩니다.
 
-#### Controller scope
+#### 컨트롤러의 스코프
 
-Controllers can also have scope, which applies to all request method handlers declared in that controller. Like provider scope, the scope of a controller declares its lifetime. For a request-scoped controller, a new instance is created for each inbound request, and garbage-collected when the request has completed processing.
+컨트롤러 또한 스코프를 가질 수 있으며, 해당 컨트롤러에 속한 모든 요청핸들러 메서드들에게 적용됩니다. 프로바이더의 스코프처럼, 컨트롤러의 스코프도 그 수명을 결정합니다. 요청기반 스코프를 가지는 컨트롤러는 들어오는 각 요청에 대해 새로운 인스턴스를 생성하고 요청이 완전히 처리되면 가비지 컬렉션에 의해 수거됩니다.
 
-Declare controller scope with the `scope` property of the `ControllerOptions` object:
+컨트롤러의 스코프를 정의하려면 `ControllerOptions`객체의 `scope`프로퍼티를 사용합니다:
 
 ```typescript
 @Controller({
@@ -67,11 +66,11 @@ Declare controller scope with the `scope` property of the `ControllerOptions` ob
 export class CatsController {}
 ```
 
-#### Scope hierarchy
+#### 스코프 계층구조
 
-Scope bubbles up the injection chain. A controller that depends on a request-scoped provider will, itself, be request-scoped.
+스코프의 주입은 연쇄적으로 버블링 됩니다. 어떤 컨트롤러가 요청기반 스코프의 프로바이더에 의존한다면, 그 컨트롤러도 요청기반 스코프를 가지게 됩니다.
 
-Imagine the following dependency graph: `CatsController <- CatsService <- CatsRepository`. If `CatsService` is request-scoped (and the others are default singletons), the `CatsController` will become request-scoped as it is dependent on the injected service. The `CatsRepository`, which is not dependent, would remain singleton-scoped.
+다음과 같은 의존성 구조를 상상해 봅시다: `CatsController <- CatsService <- CatsRepository`. 만약 `CatsService`만 요청기반 스코프를 가지고 나머지는 기본 스코프인 싱글톤 스코프를 가진다면, `CatsController`는 주입받는 서비스에 의존하므로 요청기반 스코프를 가지게 됩니다. `CatsRepository`는 서비스에 의존하지 않으므로 싱글톤 스코프 그대로 남습니다.
 
 <app-banner-courses></app-banner-courses>
 
