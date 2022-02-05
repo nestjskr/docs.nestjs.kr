@@ -1,6 +1,6 @@
 ### 스코프 주입하기
 
-서로 다른 개발언어 경험을 가진 사람들에게는, 들어오는 모든 요청 간에 거의 모든 것이 공유된다는 사실을 예상하지 못할 수 있습니다. 우리에게는 데이터베이스와의 연결 풀, 전역 상태를 가지는 싱글톤 서비스 등이 있습니다. Node.js는 모든 요청이 각각 분리된 스레드에서 처리되는 Multi-Threaded Stateless 모델을 따르지 않는다는 것을 기억하고 있어야 합니다. 이 때문에, 싱글톤 인스턴스를 사용하는 것이 우리의 애플리케이션에게 전적으로 **안전**합니다.
+다른 개발 언어를 경험하고 오는 사람들은, 들어오는 모든 요청 간에 거의 모든 컴포넌트들이 공유된다는 사실을 예상하지 못할 수 있습니다. 이를테면 데이터베이스와의 연결 풀, 전역 상태를 가지는 싱글톤 서비스 등이 있습니다. Node.js는 모든 요청이 각각 분리된 스레드에서 처리되는 Multi-Threaded Stateless 모델을 따르지 않는다는 것을 기억하고 있어야 합니다. 이 때문에, 싱글톤 인스턴스를 사용하는 것이 우리의 애플리케이션에게 전적으로 **안전**합니다.
 
 하지만 GraphQL 애플리케이션에서의 요청별 캐싱, 요청 트래킹, 멀티테넌시와 같이 인스턴스가 요청에 기반한 수명을 가지길 바라는 경우도 있습니다.
 
@@ -23,7 +23,7 @@
   </tr>
 </table>
 
-> info **힌트** 대부분의 경우에는 싱글톤 스코프를 사용하는 것을 **권장**합니다. 프로바이더를 모든 소비자들과 모든 요청들이 공유한다는 것은 인스턴스의 초기화 작업이 애플리케이션이 구동되는 시점에 딱 한 번 이루어진 후에 그 인스턴스가 캐싱된다는 것을 뜻합니다.
+> info **힌트** 대부분의 경우에는 싱글톤 스코프를 사용하는 것을 **권장**합니다. 프로바이더를 모든 소비자들과 모든 요청들이 공유한다는 것은 인스턴스의 초기화 작업이 애플리케이션이 구동되는 시점에 딱 한 번 이루어진 후에 그 인스턴스가 캐싱 된다는 것을 뜻합니다.
 
 #### 사용법
 
@@ -48,7 +48,7 @@ export class CatsService {}
 
 > info **힌트** `Scope` enum은 `@nestjs/common`에서 import합니다
 
-> warning **주의** Gateway는 실제 소켓을 캡슐화하기 때문에 여러 번 인스턴스화 될 수 없습니다. 즉, Gateway는 무조건 싱글톤으로 동작해야 하기에 요청기반 스코프를 가지는 프로바이더를 사용할 수 없습니다.
+> warning **주의** Gateway는 실제 소켓을 캡슐화하기 때문에 여러 번 인스턴스화될 수 없습니다. 즉, Gateway는 무조건 싱글톤으로 동작해야 하기에 요청기반 스코프를 가지는 프로바이더를 사용할 수 없습니다.
 
 싱글톤 스코프는 기본으로 적용되기에 따로 명시할 필요가 없습니다. 만약 프로바이더가 싱글톤 스코프를 가지도록 명시하고 싶다면, `scope`프로퍼티의 값으로 `Scope.DEFAULT`를 넣으면 됩니다.
 
@@ -76,7 +76,7 @@ export class CatsController {}
 
 #### 요청 프로바이더
 
-HTTP 서버 기반의 애플리케이션(이를테면 `@nestjs/platform-express` 혹은 `@nestjs/platform-fastify`)에서, 요청기반 스코프의 프로바이더를 사용하면서 원래의 요청객체를 참조하고 싶을 수 있습니다. 이는 `REQUEST`객체를 주입함으로써 가능합니다.
+HTTP 서버 기반의 애플리케이션(이를테면 `@nestjs/platform-express` 혹은 `@nestjs/platform-fastify`)에서, 요청기반 스코프의 프로바이더를 사용하면서 원래의 요청 객체를 참조하고 싶을 수 있습니다. 이는 `REQUEST`객체를 주입함으로써 가능합니다.
 
 ```typescript
 import { Injectable, Scope, Inject } from "@nestjs/common";
@@ -103,6 +103,6 @@ export class CatsService {
 
 그 다음, `request`프로퍼티를 포함시키도록 `GraphQLModule`에서 `context`의 값을 구성해야 합니다.
 
-#### Performance
+#### 성능
 
-Using request-scoped providers will have an impact on application performance. While Nest tries to cache as much metadata as possible, it will still have to create an instance of your class on each request. Hence, it will slow down your average response time and overall benchmarking result. Unless a provider must be request-scoped, it is strongly recommended that you use the default singleton scope.
+요청기반 스코프의 프로바이더를 사용하는 것은 애플리케이션 성능에 타격을 줄 수 있습니다. Nest는 가능한 많은 메타데이터를 캐싱 하려 하는데, 그 프로바이더의 인스턴스는 요청이 들어올 때마다 계속 생성하므로 평균 응답시간과 전체적인 벤치마킹 결과가 느려질 수밖에 없습니다. 프로바이더가 요청기반 스코프를 무조건 가져야 하는 게 아니라면, 기본값인 싱글톤 스코프를 사용하기를 적극 권장합니다.
