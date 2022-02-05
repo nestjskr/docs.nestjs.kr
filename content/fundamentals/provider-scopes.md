@@ -74,9 +74,9 @@ export class CatsController {}
 
 <app-banner-courses></app-banner-courses>
 
-#### Request provider
+#### 요청 프로바이더
 
-In an HTTP server-based application (e.g., using `@nestjs/platform-express` or `@nestjs/platform-fastify`), you may want to access a reference to the original request object when using request-scoped providers. You can do this by injecting the `REQUEST` object.
+HTTP 서버 기반의 애플리케이션(이를테면 `@nestjs/platform-express` 혹은 `@nestjs/platform-fastify`)에서, 요청기반 스코프의 프로바이더를 사용하면서 원래의 요청객체를 참조하고 싶을 수 있습니다. 이는 `REQUEST`객체를 주입함으로써 가능합니다.
 
 ```typescript
 import { Injectable, Scope, Inject } from "@nestjs/common";
@@ -89,7 +89,7 @@ export class CatsService {
 }
 ```
 
-Because of underlying platform/protocol differences, you access the inbound request slightly differently for Microservice or GraphQL applications. In [GraphQL](/graphql/quick-start) applications, you inject `CONTEXT` instead of `REQUEST`:
+기본적인 플랫폼이나 프로토콜의 차이로 인해, 마이크로서비스나 GraphQL을 사용하는 분들은 들어오는 요청에 접근하는 방법이 아주 살짝 다릅니다. [GraphQL](/graphql/quick-start) 애플리케이션에서는, `REQUEST`대신에 `CONTEXT`를 주입합니다.
 
 ```typescript
 import { Injectable, Scope, Inject } from "@nestjs/common";
@@ -101,7 +101,7 @@ export class CatsService {
 }
 ```
 
-You then configure your `context` value (in the `GraphQLModule`) to contain `request` as its property.
+그 다음, `request`프로퍼티를 포함시키도록 `GraphQLModule`에서 `context`의 값을 구성해야 합니다.
 
 #### Performance
 
