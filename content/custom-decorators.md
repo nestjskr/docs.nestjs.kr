@@ -1,16 +1,16 @@
 ### Custom route decorators
 
-Nest is built around a language feature called **decorators**. Decorators are a well-known concept in a lot of commonly used programming languages, but in the JavaScript world, they're still relatively new. In order to better understand how decorators work, we recommend reading [this article](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841). Here's a simple definition:
+### 사용자 라우트 데코레이터
+
+Nest는 **데코레이터**라는 언어 기능을 활용하여 구축됩니다. 데코레이터는 많은 프로그래밍 언어들에서는 잘 알려진 개념이지만, 자바스크립트 세계에서는 아직까지는 상대적으로 신기능입니다. 데코레이터가 어떻게 동작하는지 더 잘 이해하고 싶다면, [이 자료](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841)를 읽어보기를 추천합니다. 데코레이터에 대해 간단하게 정의하자면 이렇습니다.
 
 <blockquote class="external">
-  An ES2016 decorator is an expression which returns a function and can take a target, name and property descriptor as arguments.
-  You apply it by prefixing the decorator with an <code>@</code> character and placing this at the very top of what
-  you are trying to decorate. Decorators can be defined for either a class, a method or a property.
+  ES2016 데코레이터는 특정 대상이나 이름, 프로퍼티 설명자를 인자로 받으며 함수를 반환하는 표현식입니다. 데코레이터를 적용할 때는 <code>@</code>문자를 데코레이터의 접두사로 붙이고, 적용할 대상의 바로 위에 위치시킵니다. 데코레이터는 클래스나 메서드, 프로퍼티를 적용 대상으로 삼을 수 있습니다.
 </blockquote>
 
-#### Param decorators
+#### 매개변수 데코레이터
 
-Nest provides a set of useful **param decorators** that you can use together with the HTTP route handlers. Below is a list of the provided decorators and the plain Express (or Fastify) objects they represent
+Nest는 HTTP 라우트 핸들러와 함께 유용하게 사용할 수 있는 유용한 **매개변수 데코레이터**들을 제공합니다. 다음은 제공되는 데코레이터들의 종류와 각 데코레이터들이 나타내는 Express(또는 Fastify) 객체입니다.
 
 <table>
   <tbody>
@@ -57,15 +57,15 @@ Nest provides a set of useful **param decorators** that you can use together wit
   </tbody>
 </table>
 
-Additionally, you can create your own **custom decorators**. Why is this useful?
+추가적으로, **사용자 데코레이터**를 작성할 수도 있습니다. 이게 왜 유용할까요?
 
-In the node.js world, it's common practice to attach properties to the **request** object. Then you manually extract them in each route handler, using code like the following:
+node.js 세계에서는 **요청**객체에 프로퍼티들을 붙이는 경험을 흔하게 합니다. 그러고는 아래처럼 각 라우트 핸들러에서 코드를 통해 해당 프로퍼티들을 추출할 수 있습니다.
 
 ```typescript
 const user = req.user;
 ```
 
-In order to make your code more readable and transparent, you can create a `@User()` decorator and reuse it across all of your controllers.
+코드의 가독성을 높이고 더욱 투명하게 만들기 위해, `@User()` 데코레이터를 작성하여 모든 컨트롤러에서 재사용할 수 있습니다.
 
 ```typescript
 @@filename(user.decorator)
@@ -79,7 +79,7 @@ export const User = createParamDecorator(
 );
 ```
 
-Then, you can simply use it wherever it fits your requirements.
+그러고나서 필요하다면 어디서든 간단하게 이 데코레이터를 사용할 수 있습니다.
 
 ```typescript
 @@filename()
