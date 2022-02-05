@@ -28,22 +28,22 @@ if (host.getType() === "http") {
 
 이처럼, 사용 가능한 애플리케이션 타입을 활용하여 보다 범용적인 컴포넌트를 작성할 수 있습니다.
 
-#### Host handler arguments
+#### 호스트 핸들러 매개변수
 
-To retrieve the array of arguments being passed to the handler, one approach is to use the host object's `getArgs()` method.
+핸들러에 전달 된 인자를 찾기 위해 host 객체의 `getArgs()`메서드를 사용할 수 있습니다.
 
 ```typescript
 const [req, res, next] = host.getArgs();
 ```
 
-You can pluck a particular argument by index using the `getArgByIndex()` method:
+`getArgByIndex()`메서드를 사용하여 특정 인자만 찾을 수 있습니다:
 
 ```typescript
 const request = host.getArgByIndex(0);
 const response = host.getArgByIndex(1);
 ```
 
-In these examples we retrieved the request and response objects by index, which is not typically recommended as it couples the application to a particular execution context. Instead, you can make your code more robust and reusable by using one of the `host` object's utility methods to switch to the appropriate application context for your application. The context switch utility methods are shown below.
+이 예제들에서 요청 객체 및 응답 객체를 인덱스를 통해 찾았는데, 일반적으로 이는 어플리케이션을 특정한 하나의 실행 컨텍스트에 국한시키는 것이므로 권장되지 않습니다. 대신에, `host`객체에는 적절한 어플리케이션 컨텍스트로 전환할 수 있는 유틸리티 메서드가 있으므로 이를 사용하여 더욱 안정되고 재사용가능한 코드를 작성할 수 있습니다. 아래는 컨텍스트를 전환하는 유틸리티 메서드들입니다.
 
 ```typescript
 /**
@@ -60,7 +60,7 @@ switchToHttp(): HttpArgumentsHost;
 switchToWs(): WsArgumentsHost;
 ```
 
-Let's rewrite the previous example using the `switchToHttp()` method. The `host.switchToHttp()` helper call returns an `HttpArgumentsHost` object that is appropriate for the HTTP application context. The `HttpArgumentsHost` object has two useful methods we can use to extract the desired objects. We also use the Express type assertions in this case to return native Express typed objects:
+직전의 예제를 `switchToHttp()`메서드를 사용하여 다시 작성해 봅시다. `host.switchToHttp()`는 HTTP 애플리케이션 컨텍스트에 걸맞는 `HttpArgugentsHost`객체를 반환합니다. `HttpArgugentsHost`객체는 우리가 원하는 객체를 받아올 수 있도록 두 가지 유용한 메서드를 제공합니다. 이 경우에는 Express 본연의 타입을 가진 객체를 반환받을 수 있도록 Express의 타입을 type assertion 해줍니다:
 
 ```typescript
 const ctx = host.switchToHttp();
@@ -68,7 +68,7 @@ const request = ctx.getRequest<Request>();
 const response = ctx.getResponse<Response>();
 ```
 
-Similarly `WsArgumentsHost` and `RpcArgumentsHost` have methods to return appropriate objects in the microservices and WebSockets contexts. Here are the methods for `WsArgumentsHost`:
+`WsArgumentsHost`와 `RpcArgumentsHost`에도 각각 웹소켓 컨텍스트와 마이크로서비스 컨텍스트에서 적당한 객체를 반환하는 메서드들이 있습니다. 아래는 `WsArgMentsHost`의 메서드들입니다.
 
 ```typescript
 export interface WsArgumentsHost {
@@ -83,7 +83,7 @@ export interface WsArgumentsHost {
 }
 ```
 
-Following are the methods for `RpcArgumentsHost`:
+이어서 `RpcArgumentsHost`의 메서드들입니다:
 
 ```typescript
 export interface RpcArgumentsHost {
@@ -99,9 +99,9 @@ export interface RpcArgumentsHost {
 }
 ```
 
-#### ExecutionContext class
+#### ExecutionContext 클래스
 
-`ExecutionContext` extends `ArgumentsHost`, providing additional details about the current execution process. Like `ArgumentsHost`, Nest provides an instance of `ExecutionContext` in places you may need it, such as in the `canActivate()` method of a [guard](https://docs.nestjs.com/guards#execution-context) and the `intercept()` method of an [interceptor](https://docs.nestjs.com/interceptors#execution-context). It provides the following methods:
+`ExecutionContext`는 `ArgumentsHost`를 상속 받으며, 현재 실행 프로세스에 대한 추가적인 세부사항을 제공합니다. `ArgumentsHost`와 같이, Nest는 우리가 원하는 곳에 `ExecutionContext` 인스턴스를 제공하며, [가드]()의 `canActive()`메서드나 [인터셉터]()의 `intercept()`메서드가 그 예시입니다. 인스턴스는 아래 메서드들을 제공합니다:
 
 ```typescript
 export interface ExecutionContext extends ArgumentsHost {
@@ -117,14 +117,14 @@ export interface ExecutionContext extends ArgumentsHost {
 }
 ```
 
-The `getHandler()` method returns a reference to the handler about to be invoked. The `getClass()` method returns the type of the `Controller` class which this particular handler belongs to. For example, in an HTTP context, if the currently processed request is a `POST` request, bound to the `create()` method on the `CatsController`, `getHandler()` returns a reference to the `create()` method and `getClass()` returns the `CatsController` **type** (not instance).
+`getHandler()`메서드는 실행 될 핸들러의 참조를 반환합니다. `getClass()`메서드는 그 핸들러가 속한 `Controller`클래스의 타입을 반환합니다. HTTP 컨텍스트에서의 예시로, 현재 처리되는 요청이 `POST`요청이고 `CatsController`의 `create()`메서드가 실행된다면 `getHandler()`는 `create()`메서드의 참조를 반환하고 `getClass()`는 `CatsController`의 인스턴스가 아닌 **타입**을 반환합니다.
 
 ```typescript
 const methodKey = ctx.getHandler().name; // "create"
 const className = ctx.getClass().name; // "CatsController"
 ```
 
-The ability to access references to both the current class and handler method provides great flexibility. Most importantly, it gives us the opportunity to access the metadata set through the `@SetMetadata()` decorator from within guards or interceptors. We cover this use case below.
+현재 클래스와 핸들러 메서드 둘의 참조 모두에 접근하는 기능은 굉장한 유연성을 제공합니다. 가장 중요한 건, 연관된 가드나 인터셉터에서 `@SetMetadata()`데코레이터를 통해 지정한 메타데이터에 접근할 수 있는 기회가 된다는 점입니다. 이 사례에 대해서는 아래에서 다루어 보겠습니다.
 
 <app-banner-enterprise></app-banner-enterprise>
 
