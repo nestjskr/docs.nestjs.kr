@@ -28,7 +28,7 @@ A provider can have any of the following scopes:
 
 #### Usage
 
-Specify injection scope by passing the `scope` property to the `@Injectable()` decorator options object:
+주입되는 프로바이더의 스코프를 정하려면 `@Injectable()`데코레이터의 options객체에 `scope`프로퍼티를 넘겨야 합니다:
 
 ```typescript
 import { Injectable, Scope } from "@nestjs/common";
@@ -37,7 +37,7 @@ import { Injectable, Scope } from "@nestjs/common";
 export class CatsService {}
 ```
 
-Similarly, for [custom providers](/fundamentals/custom-providers), set the `scope` property in the long-hand form for a provider registration:
+비슷하게, [custom providers](/fundamentals/custom-providers)에서도 프로바이더를 등록하는 과정에서 `scope`프로퍼티를 지정했습니다.
 
 ```typescript
 {
@@ -47,11 +47,11 @@ Similarly, for [custom providers](/fundamentals/custom-providers), set the `scop
 }
 ```
 
-> info **Hint** Import the `Scope` enum from `@nestjs/common`
+> info **힌트** `Scope` enum은 `@nestjs/common`에서 import합니다
 
-> warning **Notice** Gateways should not use request-scoped providers because they must act as singletons. Each gateway encapsulates a real socket and cannot be instantiated multiple times.
+> warning **주의** Gateway는 실제 소켓을 캡슐화하기 때문에 여러 번 인스턴스화 될 수 없습니다. 즉, Gateway는 무조건 싱글톤으로 동작해야 하기에 요청기반 스코프를 가지는 프로바이더를 사용할 수 없습니다.
 
-Singleton scope is used by default, and need not be declared. If you do want to declare a provider as singleton scoped, use the `Scope.DEFAULT` value for the `scope` property.
+싱글톤 스코프는 기본으로 적용되기에 따로 명시할 필요가 없습니다. 만약 프로바이더가 싱글톤 스코프를 가지도록 명시하고 싶다면, `scope`프로퍼티의 값으로 `Scope.DEFAULT`를 넣으면 됩니다.
 
 #### Controller scope
 
