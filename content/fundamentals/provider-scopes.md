@@ -7,23 +7,24 @@
 #### Provider scope
 
 A provider can have any of the following scopes:
+프로바이더는 다음 스코프들 중 하나를 가질 수 있습니다:
 
 <table>
   <tr>
     <td><code>DEFAULT</code></td>
-    <td>A single instance of the provider is shared across the entire application. The instance lifetime is tied directly to the application lifecycle. Once the application has bootstrapped, all singleton providers have been instantiated. Singleton scope is used by default.</td>
+    <td>하나의 인스턴스를 가지는 프로바이더로서 전체 애플리케이션 간에 공유됩니다. 인스턴스의 수명은 애플리케이션 생명주기와 직결됩니다. 애플리케이션이 구동되고 나면, 모든 싱글톤 프로바이더들이 인스턴스화 되며 기본적으로 싱글톤 스코프를 가집니다.</td>
   </tr>
   <tr>
     <td><code>REQUEST</code></td>
-    <td>A new instance of the provider is created exclusively for each incoming <strong>request</strong>.  The instance is garbage-collected after the request has completed processing.</td>
+    <td>들어오는 각각의 <strong>요청</strong>에 대해 새로운 프로바이더 인스턴스가 생성됩니다. 생성된 인스턴스는 요청이 완전히 처리된 이후에 가비지 콜렉션에 의해 수거됩니다.</td>
   </tr>
   <tr>
     <td><code>TRANSIENT</code></td>
-    <td>Transient providers are not shared across consumers. Each consumer that injects a transient provider will receive a new, dedicated instance.</td>
+    <td>Transient 프로바이더는 소비자(프로바이더를 주입받아 사용하는 컴포넌트)들 사이에서 공유되지 않습니다. 하나의 transient 프로바이더를 주입하는 여러 소비자들은 각자 새로운 인스턴스를 할당 받습니다.</td>
   </tr>
 </table>
 
-> info **Hint** Using singleton scope is **recommended** for most use cases. Sharing providers across consumers and across requests means that an instance can be cached and its initialization occurs only once, during application startup.
+> info **힌트** 대부분의 경우에는 싱글톤 스코프를 사용하는 것을 **권장**합니다. 프로바이더를 모든 소비자들과 모든 요청들이 공유한다는 것은 인스턴스의 초기화 작업이 애플리케이션이 구동되는 시점에 딱 한 번 이루어진 후에 그 인스턴스가 캐싱된다는 것을 뜻합니다.
 
 #### Usage
 
