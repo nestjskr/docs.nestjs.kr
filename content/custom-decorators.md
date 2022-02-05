@@ -97,7 +97,9 @@ async findOne(user) {
 
 #### Passing data
 
-When the behavior of your decorator depends on some conditions, you can use the `data` parameter to pass an argument to the decorator's factory function. One use case for this is a custom decorator that extracts properties from the request object by key. Let's assume, for example, that our <a href="techniques/authentication#implementing-passport-strategies">authentication layer</a> validates requests and attaches a user entity to the request object. The user entity for an authenticated request might look like:
+#### 데이터 넘겨주기
+
+작성한 데코레이터가 특정 조건에 의존하여 동작해야 한다면, 데코레이터를 만드는 팩토리 함수에 넘겨주기 위한 `data` 매개변수를 사용할 수 있습니다. 사용 사례로는 요청 객체에서 특정 키로 프로퍼티를 가져오는 사용자 데코레이터가 있습니다. 예를 들어, <a href="techniques/authentication#implementing-passport-strategies">인증 계층</a>에서는 요청 내용에 대해 유효성 검사를 실시한 후에 요청 객체 속에 사용자 정보를 붙입니다. 인증에 성공한 사용자 정보는 다음과 같을 것입니다:
 
 ```json
 {
@@ -109,7 +111,7 @@ When the behavior of your decorator depends on some conditions, you can use the 
 }
 ```
 
-Let's define a decorator that takes a property name as key, and returns the associated value if it exists (or undefined if it doesn't exist, or if the `user` object has not been created).
+이제 키를 통해 이 프로퍼티를 가져와서 값이 있다면 그 값을 반환하는 데코레이터를 작성해 봅시다. (`user`객체가 없거나 객체에 값이 없다면 undefined를 반환합니다.)
 
 ```typescript
 @@filename(user.decorator)
@@ -134,7 +136,7 @@ export const User = createParamDecorator((data, ctx) => {
 });
 ```
 
-Here's how you could then access a particular property via the `@User()` decorator in the controller:
+이제 컨트롤러에서 `@User()`데코레이터를 통해 특정 프로퍼티에 접근할 수 있습니다.
 
 ```typescript
 @@filename()
@@ -150,9 +152,9 @@ async findOne(firstName) {
 }
 ```
 
-You can use this same decorator with different keys to access different properties. If the `user` object is deep or complex, this can make for easier and more readable request handler implementations.
+다른 프로퍼티에 접근하기 위해서는 똑같은 데코레이터에 다른 키를 사용하면 됩니다. 만약 `user`객체의 깊이가 깊거나 복잡하다면, 이 방법은 요청 핸들러를 더욱 쉽고 가독성 높게 구현하도록 만들어줄 수 있습니다.
 
-> info **Hint** For TypeScript users, note that `createParamDecorator<T>()` is a generic. This means you can explicitly enforce type safety, for example `createParamDecorator<string>((data, ctx) => ...)`. Alternatively, specify a parameter type in the factory function, for example `createParamDecorator((data: string, ctx) => ...)`. If you omit both, the type for `data` will be `any`.
+> info **힌트** 타입스크립트 사용자들은 `createParamDecorator<T>()`함수가 제네릭 타입을 취한다는 것을 염두해 두시길 바랍니다. 예를 들어 `createParamDecorator<string>((data, ctx) => ...)`와 같이 사용하여 명시적으로 Type Safety를 강제할 수 있습니다. 또한 `createParamDecorator((data: string, ctx) => ...)`와 같이 팩토리 함수의 매개변수 타입을 정할 수도 있습니다. 두 군데 모두 타입을 명시하지 않으면 `data`의 타입은 `any`가 됩니다.
 
 #### Working with pipes
 
