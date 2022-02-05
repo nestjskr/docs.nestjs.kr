@@ -1,32 +1,32 @@
-### Execution context
+### 실행 컨텍스트
 
-Nest provides several utility classes that help make it easy to write applications that function across multiple application contexts (e.g., Nest HTTP server-based, microservices and WebSockets application contexts). These utilities provide information about the current execution context which can be used to build generic [guards](/guards), [filters](/exception-filters), and [interceptors](/interceptors) that can work across a broad set of controllers, methods, and execution contexts.
+Nest는 여러 애플리케이션 컨텍스트들(예를 들면 Nest HTTP 서버 기반과 마이크로서비스, 웹소켓 컨텍스트)을 아울러서 작동하는 애플리케이션을 쉽게 작성할 수 있도록 몇 가지 유틸리티 클래스들을 제공합니다. 이 유틸리티들은 전반적인 컨트롤러, 메서드, 실행 컨텍스트를 아울러 동작하는 범용적인 [가드](/guards), [필터](/exception-filters), [인터셉터](/interceptors)를 만들 수 있도록 현재 실행 컨텍스트에 대한 정보를 제공합니다.
 
-We cover two such classes in this chapter: `ArgumentsHost` and `ExecutionContext`.
+이 챕터에서는 `ArgumentsHost`, `ExecutionContext` 두 클래스를 다룹니다.
 
-#### ArgumentsHost class
+#### ArgumentsHost 클래스
 
-The `ArgumentsHost` class provides methods for retrieving the arguments being passed to a handler. It allows choosing the appropriate context (e.g., HTTP, RPC (microservice), or WebSockets) to retrieve the arguments from. The framework provides an instance of `ArgumentsHost`, typically referenced as a `host` parameter, in places where you may want to access it. For example, the `catch()` method of an [exception filter](https://docs.nestjs.com/exception-filters#arguments-host) is called with an `ArgumentsHost`instance.
+`ArgumentsHost` 클래스는 핸들러에 전달 된 인자들을 찾을 수 있는 메서드들을 제공하며, 인자들을 찾을 수 있는 적절한 컨텍스트(예를 들면 HTTP, RPC(마이크로서비스), 웹소켓)를 선택할 수 있게 해줍니다. 프레임워크는 `ArgumentsHost`의 인스턴스를 제공하며, 접근하려는 곳에서는 일반적으로 `host`라는 이름의 매개변수로 참조됩니다. 예를 들어, [예외 필터](https://docs.nestjs.com/exception-filters#arguments-host)의 `catch()`메서드는 `ArgumentsHost` 인스턴스와 함께 호출됩니다.
 
-`ArgumentsHost` simply acts as an abstraction over a handler's arguments. For example, for HTTP server applications (when `@nestjs/platform-express` is being used), the `host` object encapsulates Express's `[request, response, next]` array, where `request` is the request object, `response` is the response object, and `next` is a function that controls the application's request-response cycle. On the other hand, for [GraphQL](/graphql/quick-start) applications, the `host` object contains the `[root, args, context, info]` array.
+`ArgumentsHost`는 단순하게 핸들러의 전체적인 인자에 대한 추상화 역할을 수행합니다. HTTP 서버 애플리케이션(`@nestjs/platform-express`를 사용할 때)을 예를 들면 `host`객체가 Express의 `[request, response, next]`배열을 캡슐화 합니다. 여기서 `request`는 요청 객체를, `response`는 응답 객체를, `next`는 애플리케이션의 요청-응답 사이클을 제어하는 함수입니다. 반면에 [GraphQL](/graphql/quick-start) 애플리케이션에서의 `host`객체는 `[root, args, context, info]` 배열을 포함합니다.
 
-#### Current application context
+#### 현재 애플리케이션 컨텍스트
 
-When building generic [guards](/guards), [filters](/exception-filters), and [interceptors](/interceptors) which are meant to run across multiple application contexts, we need a way to determine the type of application that our method is currently running in. Do this with the `getType()` method of `ArgumentsHost`:
+여러 애플리케이션 컨텍스트를 아울러 동작하는 일반적인 [가드](/guards), [필터](/exception-filters), [인터셉터](/interceptors)를 만들기 위해서는 현재 메서드가 동작하고 있는 애플리케이션 타입을 결정지어야 하며, 이는 `ArgumentsHost`의 `getType()`메서드를 통해 가능합니다:
 
 ```typescript
-if (host.getType() === 'http') {
+if (host.getType() === "http") {
   // do something that is only important in the context of regular HTTP requests (REST)
-} else if (host.getType() === 'rpc') {
+} else if (host.getType() === "rpc") {
   // do something that is only important in the context of Microservice requests
-} else if (host.getType<GqlContextType>() === 'graphql') {
+} else if (host.getType<GqlContextType>() === "graphql") {
   // do something that is only important in the context of GraphQL requests
 }
 ```
 
-> info **Hint** The `GqlContextType` is imported from the `@nestjs/graphql` package.
+> info **힌트** `GqlContextType`은 `@nestjs/graphql`패키지에서 import합니다.
 
-With the application type available, we can write more generic components, as shown below.
+이처럼, 사용 가능한 애플리케이션 타입을 활용하여 보다 범용적인 컴포넌트를 작성할 수 있습니다.
 
 #### Host handler arguments
 
@@ -204,7 +204,7 @@ export class CatsService {
 Now, to read the handler metadata, use the `get()` method.
 
 ```typescript
-const roles = this.reflector.get<string[]>('roles', context.getHandler());
+const roles = this.reflector.get<string[]>("roles", context.getHandler());
 ```
 
 The `Reflector#get` method allows us to easily access the metadata by passing in two arguments: a metadata **key** and a **context** (decorator target) to retrieve the metadata from. In this example, the specified **key** is `'roles'` (refer back to the `roles.decorator.ts` file above and the `SetMetadata()` call made there). The context is provided by the call to `context.getHandler()`, which results in extracting the metadata for the currently processed route handler. Remember, `getHandler()` gives us a **reference** to the route handler function.
@@ -262,7 +262,7 @@ export class CatsController {}
 If your intent is to specify `'user'` as the default role, and override it selectively for certain methods, you would probably use the `getAllAndOverride()` method.
 
 ```typescript
-const roles = this.reflector.getAllAndOverride<string[]>('roles', [
+const roles = this.reflector.getAllAndOverride<string[]>("roles", [
   context.getHandler(),
   context.getClass(),
 ]);
@@ -273,7 +273,7 @@ A guard with this code, running in the context of the `create()` method, with th
 To get metadata for both and merge it (this method merges both arrays and objects), use the `getAllAndMerge()` method:
 
 ```typescript
-const roles = this.reflector.getAllAndMerge<string[]>('roles', [
+const roles = this.reflector.getAllAndMerge<string[]>("roles", [
   context.getHandler(),
   context.getClass(),
 ]);
