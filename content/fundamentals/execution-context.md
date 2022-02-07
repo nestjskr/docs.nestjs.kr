@@ -128,9 +128,9 @@ const className = ctx.getClass().name; // "CatsController"
 
 <app-banner-enterprise></app-banner-enterprise>
 
-#### Reflection and metadata
+#### Reflection과 메타데이터
 
-Nest provides the ability to attach **custom metadata** to route handlers through the `@SetMetadata()` decorator. We can then access this metadata from within our class to make certain decisions.
+Nest는 **사용자 정의 메타데이터** 붙일 수 있는 기능을 제공하며 이는 라우트 핸들러에서 `@SetMetadata()`데코레이터를 통해 가능합니다. 이후 클래스 내에서 이 메타데이터에 접근하여 특정 결정을 내릴 수 있습니다.
 
 ```typescript
 @@filename(cats.controller)
@@ -148,9 +148,9 @@ async create(createCatDto) {
 }
 ```
 
-> info **Hint** The `@SetMetadata()` decorator is imported from the `@nestjs/common` package.
+> info **힌트** `@SetMetadata()` 데코레이터는 `@nestjs/common` 패키지에서 import합니다.
 
-With the construction above, we attached the `roles` metadata (`roles` is a metadata key and `['admin']` is the associated value) to the `create()` method. While this works, it's not good practice to use `@SetMetadata()` directly in your routes. Instead, create your own decorators, as shown below:
+위의 예제에서는 `roles`라는 메타데이터를 `create()`메서드에 붙였습니다(`roles`는 메타데이터 키이며 `['admin']`은 그 값입니다). 라우트에서 `@SetMetadata()`데코레이터를 직접 쓰는 것은 그다지 좋은 방법은 아닙니다. 대신에 아래와 같이 사용자 정의 데코레이터를 작성합니다:
 
 ```typescript
 @@filename(roles.decorator)
@@ -163,7 +163,7 @@ import { SetMetadata } from '@nestjs/common';
 export const Roles = (...roles) => SetMetadata('roles', roles);
 ```
 
-This approach is much cleaner and more readable, and is strongly typed. Now that we have a custom `@Roles()` decorator, we can use it to decorate the `create()` method.
+이러한 접근 방식이 훨씬 깔끔하고 가독성 있으며, 타입을 더욱 엄격하게 관리할 수 있습니다. 이제 `@Roles()`데코레이터를 `create()`메서드에 사용합니다.
 
 ```typescript
 @@filename(cats.controller)
@@ -181,7 +181,7 @@ async create(createCatDto) {
 }
 ```
 
-To access the route's role(s) (custom metadata), we'll use the `Reflector` helper class, which is provided out of the box by the framework and exposed from the `@nestjs/core` package. `Reflector` can be injected into a class in the normal way:
+라우트에서 role이라는 사용자 정의 메타데이터에 접근하기 위해서는 `Reflector` 헬퍼 클래스를 사용하면 됩니다. 이 클래스는 별도의 작업 없이 그저 `@nestjs/core`에서 가져다 사용하기만 하면 됩니다. `Reflector` 일반적인 방법으로 클래스에 주입시킬 수 있습니다:
 
 ```typescript
 @@filename(roles.guard)
@@ -199,17 +199,16 @@ export class CatsService {
 }
 ```
 
-> info **Hint** The `Reflector` class is imported from the `@nestjs/core` package.
-
-Now, to read the handler metadata, use the `get()` method.
+> info **힌트** `Reflector` 클래스는 `@nestjs/core` 패키지에서 import합니다.
+> Now, to read the handler metadata, use the `get()` method.
 
 ```typescript
 const roles = this.reflector.get<string[]>("roles", context.getHandler());
 ```
 
-The `Reflector#get` method allows us to easily access the metadata by passing in two arguments: a metadata **key** and a **context** (decorator target) to retrieve the metadata from. In this example, the specified **key** is `'roles'` (refer back to the `roles.decorator.ts` file above and the `SetMetadata()` call made there). The context is provided by the call to `context.getHandler()`, which results in extracting the metadata for the currently processed route handler. Remember, `getHandler()` gives us a **reference** to the route handler function.
+메타데이터의 **키**와 메타데이터를 찾을 **컨텍스트** (데코레이터가 붙는 대상) 두 가지를 `Reflector#get` 메서드에 인자로 넘김으로써 쉽게 메타데이터에 접근할 수 있습니다. 이 예제에서는 위에서 작성한 `roles.decorator.ts`파일에서 `SetMetadata()`를 통해 만들었던 `'roles'`라는 **키**가 있습니다. 컨텍스트는 `context.getHandler()`를 호출하면 얻을 수 있고, 이 둘을 넘긴 결과로 현재 처리되는 라우트 핸들러의 메타데이터를 추출할 수 있습니다. `getHandler()`는 라우트 핸들러 함수의 **참조**를 반환한다는 점을 기억해야 합니다.
 
-Alternatively, we may organize our controller by applying metadata at the controller level, applying to all routes in the controller class.
+또한, 컨트롤러 레벨에 메타데이터를 적용하여 해당 컨트롤러의 모든 라우트들에 메타데이터를 적용시킬 수 있습니다.
 
 ```typescript
 @@filename(cats.controller)
@@ -222,7 +221,7 @@ export class CatsController {}
 export class CatsController {}
 ```
 
-In this case, to extract controller metadata, we pass `context.getClass()` as the second argument (to provide the controller class as the context for metadata extraction) instead of `context.getHandler()`:
+이 경우에는, `context.getHandler()` 대신에 `context.getClass()`를 두 번째 인자로 넣어야 하며, 이는 메타데이터를 추출하기 위한 컨텍스트로 해당 컨트롤러 클래스를 제공하기 위함입니다.
 
 ```typescript
 @@filename(roles.guard)
@@ -231,9 +230,9 @@ const roles = this.reflector.get<string[]>('roles', context.getClass());
 const roles = this.reflector.get('roles', context.getClass());
 ```
 
-Given the ability to provide metadata at multiple levels, you may need to extract and merge metadata from several contexts. The `Reflector` class provides two utility methods used to help with this. These methods extract **both** controller and method metadata at once, and combine them in different ways.
+하나의 메타데이터를 다양한 레벨에서 동시에 지정한다면, 다수의 컨텍스트로부터 메타데이터를 추출하고 합쳐야 할 것입니다. `Reflector` 클래스는 이를 위해 두 가지의 유틸리티 메서드를 제공합니다. 이 메서드들은 컨트롤러와 메서드 **두 곳 모두**에서 메타데이터를 추출하고, 각기 다른 방법으로 조합합니다.
 
-Consider the following scenario, where you've supplied `'roles'` metadata at both levels.
+`'roles'`메타데이터를 두 가지 레벨에서 동시에 공급한다고 가정해 봅시다.
 
 ```typescript
 @@filename(cats.controller)
@@ -259,7 +258,7 @@ export class CatsController {}
 }
 ```
 
-If your intent is to specify `'user'` as the default role, and override it selectively for certain methods, you would probably use the `getAllAndOverride()` method.
+위 코드의 의도가 `'user'` role을 기본으로 취급하되 몇몇 메서드에서만 role을 덮어씌우고자 하는 것이라면, `getAllAndOverride()` 메서드를 사용하면 됩니다.
 
 ```typescript
 const roles = this.reflector.getAllAndOverride<string[]>("roles", [
@@ -268,9 +267,9 @@ const roles = this.reflector.getAllAndOverride<string[]>("roles", [
 ]);
 ```
 
-A guard with this code, running in the context of the `create()` method, with the above metadata, would result in `roles` containing `['admin']`.
+`created()` 메서드의 컨텍스트 속에서 동작하는 가드에서 위와 같이 코드를 작성하면 `roles`의 값은 `['admin']`가 됩니다.
 
-To get metadata for both and merge it (this method merges both arrays and objects), use the `getAllAndMerge()` method:
+두 메타데이터를 병합하려면 `getAllAndMerge()` 메서드를 사용합니다. 이 메서드는 두 배열을 하나로 병합합니다.
 
 ```typescript
 const roles = this.reflector.getAllAndMerge<string[]>("roles", [
@@ -279,6 +278,6 @@ const roles = this.reflector.getAllAndMerge<string[]>("roles", [
 ]);
 ```
 
-This would result in `roles` containing `['user', 'admin']`.
+위와 같이 작성하면 `roles`의 값은 `['user', 'admin']`가 됩니다.
 
-For both of these merge methods, you pass the metadata key as the first argument, and an array of metadata target contexts (i.e., calls to the `getHandler()` and/or `getClass())` methods) as the second argument.
+이 두 가지 메서드를 사용할 때에는 첫 번째 인자로 메타데이터 키를, 두 번재 인자로는 메타데이터 대상 컨텍스트(`getHandler()`나 `getClass()` 메서드를 호출한 결과)가 담긴 배열을 건네야 합니다.
