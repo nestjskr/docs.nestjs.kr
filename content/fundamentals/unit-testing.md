@@ -9,7 +9,7 @@
 - provides integration with [Jest](https://github.com/facebook/jest) and [Supertest](https://github.com/visionmedia/supertest) out-of-the-box, while remaining agnostic to testing tools
 - makes the Nest dependency injection system available in the testing environment for easily mocking components
 
-As mentioned, you can use any **testing framework** that you like, as Nest doesn't force any specific tooling. Simply replace the elements needed (such as the test runner), and you will still enjoy the benefits of Nest's ready-made testing facilities.
+언급 했듯, 당신이 사용하고 싶은 어떠한 **테스트 프레임워크**라도 사용할 수 있습니다, Nest는 어떠한 특별한 테스팅 툴을 강제하지 않습니다. 간단하게 필요한 요소 ( 예를들어 테스트 러너 ) 를 교체하면 됩니다, 그럼 기존에 사용하던 그대로 Nest의 ready-made 테스트 시설들을 이용할 수 있습니다.
 
 #### Installation
 
