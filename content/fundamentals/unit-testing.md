@@ -1,6 +1,6 @@
 ### Testing
 
-Automated testing is considered an essential part of any serious software development effort. Automation makes it easy to repeat individual tests or test suites quickly and easily during development. This helps ensure that releases meet quality and performance goals. Automation helps increase coverage and provides a faster feedback loop to developers. Automation both increases the productivity of individual developers and ensures that tests are run at critical development lifecycle junctures, such as source code control check-in, feature integration, and version release.
+자동화된 테스트는 진지한 소프트웨어 개발의 필수적인 부분 이라 간주됩니다. 테스트 자동화는 개발하는 도중 각각의 테스트, 혹은 테스트 묶음을 쉽게 혹은 빠르게 반복할 수 있게 해줍니다. 이는 Release가 품질과 성능 목표치를 충족하는지 보장하는데 도움을 줍니다. 테스트 자동화는 보증 범위를 늘려주며, 빠른 테스트 피드백 반복 주기를 개발자에게 제공합니다. 자동화는 개별 개발자의 생산성을 높이며 소스 코드 제어 check-in, 기능 통합 및 버전 릴리즈와 같은 중요한 개발 생명 주기 시점에서 테스트가 실행 될 수 있도록 보장합니다.
 
 Such tests often span a variety of types, including unit tests, end-to-end (e2e) tests, integration tests, and so on. While the benefits are unquestionable, it can be tedious to set them up. Nest strives to promote development best practices, including effective testing, so it includes features such as the following to help developers and teams build and automate tests. Nest:
 
