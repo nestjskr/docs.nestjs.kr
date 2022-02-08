@@ -2,7 +2,7 @@
 
 자동화된 테스트는 진지한 소프트웨어 개발의 필수적인 부분 이라 간주됩니다. 테스트 자동화는 개발하는 도중 각각의 테스트, 혹은 테스트 묶음을 쉽게 혹은 빠르게 반복할 수 있게 해줍니다. 이는 Release가 품질과 성능 목표치를 충족하는지 보장하는데 도움을 줍니다. 테스트 자동화는 보증 범위를 늘려주며, 빠른 테스트 피드백 반복 주기를 개발자에게 제공합니다. 자동화는 개별 개발자의 생산성을 높이며 소스 코드 제어 check-in, 기능 통합 및 버전 릴리즈와 같은 중요한 개발 생명 주기 시점에서 테스트가 실행 될 수 있도록 보장합니다.
 
-Such tests often span a variety of types, including unit tests, end-to-end (e2e) tests, integration tests, and so on. While the benefits are unquestionable, it can be tedious to set them up. Nest strives to promote development best practices, including effective testing, so it includes features such as the following to help developers and teams build and automate tests. Nest:
+이러한 테스트는 종종 단위 다양한 여러 유형으로, 유닛테스트를 포함한, 종단간 테스트, 통합 테스트등 다양한 유형에 걸쳐있습니다. 장점은 의심할 여지가 없습니다, 테스트를 설정하는건 지루할 수 있습니다. NEST는 효과적인 테스트를 포함하여 모범적인 개발사례를 발전시키기 위해 노력하고 있습니다, 그래서 다음과 같이 개발자들과 그 팀들이 자동화된 테스트를 구현하기 위한 기능들을 포함하고 있습니다. NEST :
 
 - automatically scaffolds default unit tests for components and e2e tests for applications
 - provides default tooling (such as a test runner that builds an isolated module/application loader)
