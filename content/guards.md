@@ -1,14 +1,14 @@
-### Guards
+### 가드
 
-A guard is a class annotated with the `@Injectable()` decorator. Guards should implement the `CanActivate` interface.
+가드는 `@Injectable()` 데코레이터가 붙는 클래스의 일종이며 `CanActivate` 인터페이스를 구현해야 합니다.
 
 <figure><img src="/assets/Guards_1.png" /></figure>
 
-Guards have a **single responsibility**. They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) present at run-time. This is often referred to as **authorization**. Authorization (and its cousin, **authentication**, with which it usually collaborates) has typically been handled by [middleware](/middleware) in traditional Express applications. Middleware is a fine choice for authentication, since things like token validation and attaching properties to the `request` object are not strongly connected with a particular route context (and its metadata).
+가드는 **하나의 책임**만 집니다. 런타임 환경에서 주어지는 특정 조건(권한, 역할, ACLs 등)을 고려하여 주어진 요청을 핸들러가 처리할지 말지를 결정하며, 대게는 **인가**의 용도로 사용됩니다. Express 애플리케이션에서 인가(보통 그 사촌인 '인증'과 협력하는)는 전형적으로 [미들웨어](/middleware)를 통해 이루어졌습니다. 미들웨어를 사용하여 인증하는 것은 좋은 선택이긴 합니다. 토큰을 검사하고 `요청` 객체에 프로퍼티들을 붙이는 작업들을 특정 라우트 컨텍스트와 그 메타데이터에 국한시킬 수 있기 때문입니다.
 
-But middleware, by its nature, is dumb. It doesn't know which handler will be executed after calling the `next()` function. On the other hand, **Guards** have access to the `ExecutionContext` instance, and thus know exactly what's going to be executed next. They're designed, much like exception filters, pipes, and interceptors, to let you interpose processing logic at exactly the right point in the request/response cycle, and to do so declaratively. This helps keep your code DRY and declarative.
+하지만 원래 미들웨어는 조금 답답한 구석이 있습니다. 미들웨어는 입장에서는 어느 핸들러가 `next()`함수에 의해 호출되는지 모릅니다. 반면에, **가드**는 `ExecutionContext` 인스턴스에 접근할 수 있기 때문에 다음으로 무엇이 실행될지 정확하게 압니다. 가드는 예외 필터와 파이프, 인터셉터와 같이 요청부터 응답까지의 사이클 중 정확히 원하는 지점에 처리 로직을 아주 선언적으로 끼워 넣을 수 있도록 설계 되었습니다. 이 덕분에 더욱 DRY하고 선언적인 코드를 유지할 수 있습니다.
 
-> info **Hint** Guards are executed **after** each middleware, but **before** any interceptor or pipe.
+> info **힌트** 가드는 미들웨어보다 **이후**에, 파이프와 인터셉터보다는 **이전**에 실행됩니다.
 
 #### Authorization guard
 
