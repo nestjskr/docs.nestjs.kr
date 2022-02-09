@@ -51,15 +51,15 @@ export class AuthGuard {
 
 <app-banner-enterprise></app-banner-enterprise>
 
-#### Execution context
+#### 실행 컨텍스트
 
-The `canActivate()` function takes a single argument, the `ExecutionContext` instance. The `ExecutionContext` inherits from `ArgumentsHost`. We saw `ArgumentsHost` previously in the exception filters chapter. In the sample above, we are just using the same helper methods defined on `ArgumentsHost` that we used earlier, to get a reference to the `Request` object. You can refer back to the **Arguments host** section of the [exception filters](https://docs.nestjs.com/exception-filters#arguments-host) chapter for more on this topic.
+`canActivate()` 함수는 `ExecutionContext` 인스턴스만 인자로 받습니다. `ExecutionContext`는 `ArgumentsHost`를 상속합니다. `AgumentsHost`는 이전에 예외 필터 챕터에 등장했었습니다. 위의 예제에서는 이전과 마찬가지로 `ArgumentsHost`에 정의되어 있는 헬퍼 메서드를 사용하여 `요청` 객체를 참조합니다. 이 주제에 대해 자세히 알고 싶다면 [예외 필터](https://docs.nestjs.com/exception-filters#arguments-host) 챕터의 **Arguments host** 섹션을 참조하세요.
 
-By extending `ArgumentsHost`, `ExecutionContext` also adds several new helper methods that provide additional details about the current execution process. These details can be helpful in building more generic guards that can work across a broad set of controllers, methods, and execution contexts. Learn more about `ExecutionContext` [here](/fundamentals/execution-context).
+`ExecutionContext`는 `ArgumentsHost`를 상속받기 때문에 새로운 헬퍼 메서드를 생성하여 현재 실행 프로세스에 대한 추가적인 세부사항들을 제공할 수 있습니다. 이 세부사항들은 전반적인 컨트롤러와 메서드, 실행 컨텍스트들을 아울러 동작하는 범용적인 가드를 작성할 때 유용할 것입니다. `ExecutionContext`에 대한 자세한 내용은 [여기](fundamentals/execution-context)를 참조해 주세요.
 
-#### Role-based authentication
+#### 역할 기반 인증
 
-Let's build a more functional guard that permits access only to users with a specific role. We'll start with a basic guard template, and build on it in the coming sections. For now, it allows all requests to proceed:
+더욱 기능적인 가드를 작성하여 특정한 역할을 가진 사용자에게만 접근을 허가하도록 만들어 봅시다. 기본 가드 템플릿에서 시작하여 아래 섹션들을 거치면서 구성하겠습니다. 따라서 우선 지금은 모든 요청을 수행하도록 허가하고 있습니다:
 
 ```typescript
 @@filename(roles.guard)
