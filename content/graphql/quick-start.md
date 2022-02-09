@@ -4,17 +4,17 @@
 
 이번 챕터에서는 GraphQL에 대한 기본적인 이해를 가정하고 내장된 `@nestjs/graphql` 모듈로 작업하는 방법에 초점을 두겠습니다. `GraphQLModule`은 [Apollo](https://www.apollographql.com/) Server 로 이루어져 있습니다. 이러한 검증된 GraphQL package를 사용하여 Nest에서 GraphQL을 사용하는 방법에 대해 알아 보겠습니다.
 
-#### Installation
+#### 설치
 
-Start by installing the required packages:
+필요한 패키지를 설치하는 것부터 시작합니다:
 
 ```bash
 $ npm i @nestjs/graphql graphql@^15 apollo-server-express
 ```
 
-> info **Hint** If using Fastify, instead of installing `apollo-server-express`, you should install `apollo-server-fastify`.
+> info **Hint** Fastify를 쓰고 있다면 `apollo-server-express` 대신 `apollo-server-fastify`를 설치하세요.
 
-> warning **Warning** `@nestjs/graphql@^9` is compatible with **Apollo v3** (check out Apollo Server 3 [migration guide](https://www.apollographql.com/docs/apollo-server/migration/) for more details), while `@nestjs/graphql@^8` only supports **Apollo v2** (e.g., `apollo-server-express@2.x.x` package). Both versions (v9 and v8) are fully compatible with Nest v8 (`@nestjs/common@^8`, `@nestjs/core@^8`, etc.).
+> warning **Warning** `@nestjs/graphql@^9`는 **Apollo v3**(자세한 내용은 Apollo Server 3 [migration guide](https://www.apollographql.com/docs/apollo-server/migration/) 참조)과 호환되지만 `@nestjs/graphql@^8`은 **Apollo v2** (예: `apollo-server-express@2.x.x` package)만 지원합니다. 두 버전(v9 및 v8) 모두 Nest v8(`@nestjs/common@^8`, `@nestjs/core@^8` 등)과 완전히 호환됩니다.
 
 #### Overview
 
