@@ -1,8 +1,8 @@
-## Harnessing the power of TypeScript & GraphQL
+## TypeScript와 GraphQL의 강력한 기능 활용
 
-[GraphQL](https://graphql.org/) is a powerful query language for APIs and a runtime for fulfilling those queries with your existing data. It's an elegant approach that solves many problems typically found with REST APIs. For background, we suggest reading this [comparison](https://dev-blog.apollodata.com/graphql-vs-rest-5d425123e34b) between GraphQL and REST. GraphQL combined with [TypeScript](https://www.typescriptlang.org/) helps you develop better type safety with your GraphQL queries, giving you end-to-end typing.
+[GraphQL](https://graphql.org/) 은 API를 위한 강력한 쿼리 언어이며 기존 데이터로 쿼리를 수행할 수 있는 런타임입니다. GraphQL은 REST APIs 에서 흔히 발견되는 여러 문제들을 해결하는 우아한 접근 방식입니다. 배경지식을 위해 GraphQL과 REST를 [비교](https://dev-blog.apollodata.com/graphql-vs-rest-5d425123e34b)해 보는 것을 권장합니다. [TypeScript](https://www.typescriptlang.org/)와 결합된 GraphQL은 GraphQL query로 더 나은 type safety한 개발을 도와주고 종단 간 typing을 제공합니다.
 
-In this chapter, we assume a basic understanding of GraphQL, and focus on how to work with the built-in `@nestjs/graphql` module. The `GraphQLModule` is a wrapper around the [Apollo](https://www.apollographql.com/) server. We use this proven GraphQL package to provide a way to use GraphQL with Nest.
+이번 챕터에서는 GraphQL에 대한 기본적인 이해를 가정하고 내장된 `@nestjs/graphql` 모듈로 작업하는 방법에 초점을 두겠습니다. `GraphQLModule`은 [Apollo](https://www.apollographql.com/) Server 로 이루어져 있습니다. 이러한 검증된 GraphQL package를 사용하여 Nest에서 GraphQL을 사용하는 방법에 대해 알아 보겠습니다.
 
 #### Installation
 
@@ -154,14 +154,14 @@ GraphQLModule.forRoot({
 The above approach dynamically generates TypeScript definitions each time the application starts. Alternatively, it may be preferable to build a simple script to generate these on demand. For example, assume we create the following script as `generate-typings.ts`:
 
 ```typescript
-import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
-import { join } from 'path';
+import { GraphQLDefinitionsFactory } from "@nestjs/graphql";
+import { join } from "path";
 
 const definitionsFactory = new GraphQLDefinitionsFactory();
 definitionsFactory.generate({
-  typePaths: ['./src/**/*.graphql'],
-  path: join(process.cwd(), 'src/graphql.ts'),
-  outputAs: 'class',
+  typePaths: ["./src/**/*.graphql"],
+  path: join(process.cwd(), "src/graphql.ts"),
+  outputAs: "class"
 });
 ```
 
@@ -177,10 +177,10 @@ To enable watch mode for the script (to automatically generate typings whenever 
 
 ```typescript
 definitionsFactory.generate({
-  typePaths: ['./src/**/*.graphql'],
-  path: join(process.cwd(), 'src/graphql.ts'),
-  outputAs: 'class',
-  watch: true,
+  typePaths: ["./src/**/*.graphql"],
+  path: join(process.cwd(), "src/graphql.ts"),
+  outputAs: "class",
+  watch: true
 });
 ```
 
@@ -189,7 +189,7 @@ To automatically generate the additional `__typename` field for every object typ
 ```typescript
 definitionsFactory.generate({
   // ...,
-  emitTypenameField: true,
+  emitTypenameField: true
 });
 ```
 
@@ -198,7 +198,7 @@ To generate resolvers (queries, mutations, subscriptions) as plain fields withou
 ```typescript
 definitionsFactory.generate({
   // ...,
-  skipResolverArgs: true,
+  skipResolverArgs: true
 });
 ```
 
@@ -207,17 +207,17 @@ definitionsFactory.generate({
 To use [Apollo Sandbox](https://www.apollographql.com/blog/announcement/platform/apollo-sandbox-an-open-graphql-ide-for-local-development/) instead of the `graphql-playground` as a GraphQL IDE for local development, use the following configuration:
 
 ```typescript
-import { Module } from '@nestjs/common';
-import { GraphQLModule } from '@nestjs/graphql';
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { Module } from "@nestjs/common";
+import { GraphQLModule } from "@nestjs/graphql";
+import { ApolloServerPluginLandingPageLocalDefault } from "apollo-server-core";
 
 @Module({
   imports: [
     GraphQLModule.forRoot({
       playground: false,
-      plugins: [ApolloServerPluginLandingPageLocalDefault()],
-    }),
-  ],
+      plugins: [ApolloServerPluginLandingPageLocalDefault()]
+    })
+  ]
 })
 export class AppModule {}
 ```
@@ -279,7 +279,7 @@ The construction above instantiates `GqlConfigService` inside `GraphQLModule`, u
 class GqlConfigService implements GqlOptionsFactory {
   createGqlOptions(): GqlModuleOptions {
     return {
-      typePaths: ['./**/*.graphql'],
+      typePaths: ["./**/*.graphql"]
     };
   }
 }
