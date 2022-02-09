@@ -101,7 +101,7 @@ export interface RpcArgumentsHost {
 
 #### ExecutionContext 클래스
 
-`ExecutionContext`는 `ArgumentsHost`를 상속 받으며, 현재 실행 프로세스에 대한 추가적인 세부사항을 제공합니다. `ArgumentsHost`와 같이, Nest는 우리가 원하는 곳에 `ExecutionContext` 인스턴스를 제공하며, [가드]()의 `canActive()`메서드나 [인터셉터]()의 `intercept()`메서드가 그 예시입니다. 인스턴스는 아래 메서드들을 제공합니다:
+`ExecutionContext`는 `ArgumentsHost`를 상속 받으며, 현재 실행 프로세스에 대한 추가적인 세부사항을 제공합니다. `ArgumentsHost`와 같이, Nest는 우리가 원하는 곳에 `ExecutionContext` 인스턴스를 제공하며, [가드](/guards#execution-context)의 `canActive()`메서드나 [인터셉터](/interceptors#execution-context)의 `intercept()`메서드가 그 예시입니다. 인스턴스는 아래 메서드들을 제공합니다:
 
 ```typescript
 export interface ExecutionContext extends ArgumentsHost {

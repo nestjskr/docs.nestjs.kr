@@ -10,9 +10,9 @@
 
 > info **힌트** 가드는 미들웨어보다 **이후**에, 파이프와 인터셉터보다는 **이전**에 실행됩니다.
 
-#### Authorization guard
+#### 인가 가드
 
-As mentioned, **authorization** is a great use case for Guards because specific routes should be available only when the caller (usually a specific authenticated user) has sufficient permissions. The `AuthGuard` that we'll build now assumes an authenticated user (and that, therefore, a token is attached to the request headers). It will extract and validate the token, and use the extracted information to determine whether the request can proceed or not.
+위에서 언급했듯, **인가**는 가드를 활용하는 좋은 사례입니다. 요청하는 사용자(보통은 이미 인증된 상태)가 충분한 권한을 가지고 있을 때만 라우트를 이용할 수 있기 때문입니다. 이제부터 작성해볼 `AuthGuard`는 사용자가 이미 인증 되었다고 가정하기 때문에 요청 헤더에 토큰이 붙어있을 것이라 생각합니다. 이 가드는 토큰을 추출 및 검증하여 확보한 정보를 보고 요청을 처리할지 말지 결정합니다.
 
 ```typescript
 @@filename(auth.guard)
@@ -40,14 +40,14 @@ export class AuthGuard {
 }
 ```
 
-> info **Hint** If you are looking for a real-world example on how to implement an authentication mechanism in your application, visit [this chapter](/security/authentication). Likewise, for more sophisticated authorization example, check [this page](/security/authorization).
+> info **힌트** 만약 애플리케이션에서 인증 메커니즘을 어떻게 구현하는지에 대한 실제 사례는 [이 챕터](/security/authentication)에서 확인할 수 있습니다.
 
-The logic inside the `validateRequest()` function can be as simple or sophisticated as needed. The main point of this example is to show how guards fit into the request/response cycle.
+`validateRequest()` 함수 내부의 로직은 필요에 따라 간단해질 수도 정교해질 수도 있습니다. 이번 예제의 핵심은 요청부터 응답까지의 사이클 속에서 알맞은 곳에 가드를 끼워넣는 것입니다.
 
-Every guard must implement a `canActivate()` function. This function should return a boolean, indicating whether the current request is allowed or not. It can return the response either synchronously or asynchronously (via a `Promise` or `Observable`). Nest uses the return value to control the next action:
+모든 가드는 `canActivate()` 함수를 구현해야 하며 이 함수는 boolean을 반환해야 합니다. 반환되는 값은 요청이 허용될지 말지를 나타냅니다. 결과는 `Promise`나 `Observable`을 이용하여 비동기적으로도 반환할 수 있습니다. Nest는 이 반환값을 통해 다음 작업을 제어합니다.
 
-- if it returns `true`, the request will be processed.
-- if it returns `false`, Nest will deny the request.
+- `true`를 반환하면 요청이 처리됩니다.
+- `false`를 반환하면 Nest가 요청을 거절합니다.
 
 <app-banner-enterprise></app-banner-enterprise>
 
