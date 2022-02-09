@@ -16,13 +16,13 @@ $ npm i @nestjs/graphql graphql@^15 apollo-server-express
 
 > warning **Warning** `@nestjs/graphql@^9`는 **Apollo v3**(자세한 내용은 Apollo Server 3 [migration guide](https://www.apollographql.com/docs/apollo-server/migration/) 참조)과 호환되지만 `@nestjs/graphql@^8`은 **Apollo v2** (예: `apollo-server-express@2.x.x` package)만 지원합니다. 두 버전(v9 및 v8) 모두 Nest v8(`@nestjs/common@^8`, `@nestjs/core@^8` 등)과 완전히 호환됩니다.
 
-#### Overview
+#### 개요
 
-Nest offers two ways of building GraphQL applications, the **code first** and the **schema first** methods. You should choose the one that works best for you. Most of the chapters in this GraphQL section are divided into two main parts: one you should follow if you adopt **code first**, and the other to be used if you adopt **schema first**.
+Nest는 GraphQL applications을 구축하는 두 가지 방법 즉, **code first**와 **schema first**를 제공합니다. 당신에게 가장 적합한 방법을 선택해야 합니다. 이 GraphQL 섹션의 중 대부분 챕터들은 오직 두 main part로 나뉘어 져 있습니다. 하나는 코드를 먼저 채택하는 경우 **code first** 방법을 따르고, 다른 하나는 스키마를 먼저 채택하는 경우 **schema first**를 사용해야 합니다.
 
-In the **code first** approach, you use decorators and TypeScript classes to generate the corresponding GraphQL schema. This approach is useful if you prefer to work exclusively with TypeScript and avoid context switching between language syntaxes.
+**code first** 접근법에서는 데코레이터 및 TypeScript 클래스를 사용하여 해당하는 GraphQL 스키마를 생성합니다. 이 방법은 TypeScript로만 작업하고 언어 구문 간의 context switching을 피하려는 경우 유용합니다.
 
-In the **schema first** approach, the source of truth is GraphQL SDL (Schema Definition Language) files. SDL is a language-agnostic way to share schema files between different platforms. Nest automatically generates your TypeScript definitions (using either classes or interfaces) based on the GraphQL schemas to reduce the need to write redundant boilerplate code.
+**schema first** 접근법에서 진실된 source는 GraphQL SDL(Schema Definition Language) 파일입니다. SDL은 서로 다른 플랫폼 간에 스키마 파일을 공유할 수 있는 language-agnostic한 방법입니다. Nest는 GraphQL schema를 기반으로 TypeScript definitions(클래스나 인터페이스를 사용하여)를 자동으로 생성하여 중복된 boilerplate code 작성할 필요성을 줄입니다.
 
 #### Getting started with GraphQL & TypeScript
 
