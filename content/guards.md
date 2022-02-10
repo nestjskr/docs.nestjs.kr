@@ -85,9 +85,9 @@ export class RolesGuard {
 }
 ```
 
-#### Binding guards
+#### 가드 적용하기
 
-Like pipes and exception filters, guards can be **controller-scoped**, method-scoped, or global-scoped. Below, we set up a controller-scoped guard using the `@UseGuards()` decorator. This decorator may take a single argument, or a comma-separated list of arguments. This lets you easily apply the appropriate set of guards with one declaration.
+파이프나 예외 필터처럼 가드도 **컨트롤러 스코프**나 메서드 스코프, 전역 스코프를 가질 수 있습니다. 아래 예제에서는 `@UseGuards()` 데코레이터를 사용하여 컨트롤러 스코프를 가지는 가드를 적용했습니다. 이 데코레이터에는 단 하나의 값만 인자로 넘길 수도 있고, 여러 인자를 담은 배열을 인자로 넘길 수도 있습니다. 이 덕분에 하나의 데코레이터만으로도 적절한 가드들을 쉽게 적용할 수 있습니다.
 
 ```typescript
 @@filename()
@@ -96,9 +96,9 @@ Like pipes and exception filters, guards can be **controller-scoped**, method-sc
 export class CatsController {}
 ```
 
-> info **Hint** The `@UseGuards()` decorator is imported from the `@nestjs/common` package.
+> info **힌트** `@UseGuards()` 데코레이터는 `@nestjs/common` 패키지에서 import합니다.
 
-Above, we passed the `RolesGuard` type (instead of an instance), leaving responsibility for instantiation to the framework and enabling dependency injection. As with pipes and exception filters, we can also pass an in-place instance:
+위 예제처럼, `RolesGuard` 의 인스턴스가 아닌 타입을 전달함으로써 인스턴스화에 대한 책임을 프레임워크에 맡기고 의존성 주입을 가능하게 합니다. 파이프나 예외 필터를 적용할 때처럼 인스턴스로 넘기는 것도 가능합니다:
 
 ```typescript
 @@filename()
@@ -107,9 +107,9 @@ Above, we passed the `RolesGuard` type (instead of an instance), leaving respons
 export class CatsController {}
 ```
 
-The construction above attaches the guard to every handler declared by this controller. If we wish the guard to apply only to a single method, we apply the `@UseGuards()` decorator at the **method level**.
+위처럼 컨트롤러 레벨에 가드를 생성하면 해당 컨트롤러의 모든 핸들러에게 가드가 붙습니다. 가드를 특정 메서드에만 적용하려면 `@UseGuards()` 데코레이터를 **메서드 레벨**에 적용해야 합니다.
 
-In order to set up a global guard, use the `useGlobalGuards()` method of the Nest application instance:
+전역 가드를 적용하려면 Nest 애플리케이션 인스턴스의 `useGlobalGuards()`를 사용합니다.
 
 ```typescript
 @@filename()
@@ -117,9 +117,9 @@ const app = await NestFactory.create(AppModule);
 app.useGlobalGuards(new RolesGuard());
 ```
 
-> warning **Notice** In the case of hybrid apps the `useGlobalGuards()` method doesn't set up guards for gateways and micro services by default (see [Hybrid application](/faq/hybrid-application) for information on how to change this behavior). For "standard" (non-hybrid) microservice apps, `useGlobalGuards()` does mount the guards globally.
+> warning **주의** 하이브리드 앱의 경우 `useGlobalGuards()` 메서드는 기본적으로 게이트웨이 및 마이크로서비스에 대해 가드를 적용시키지 않습니다(이 동작을 변경하는 방법은 [하이브리드 애플리케이션](/faq/hybrid-application)을 참조하세요). 하이브리드가 아닌 "표준" 마이크로서비스 앱에서는 `useGlobalGuards()`가 가드를 전역적으로 마운트시킵니다.
 
-Global guards are used across the whole application, for every controller and every route handler. In terms of dependency injection, global guards registered from outside of any module (with `useGlobalGuards()` as in the example above) cannot inject dependencies since this is done outside the context of any module. In order to solve this issue, you can set up a guard directly from any module using the following construction:
+전역 가드는 모든 컨트롤러와 모든 라우트 핸들러, 즉 전체 애플리케이션의 어디에서나 사용됩니다. 의존성 주입 측면에서 볼 때, 위 예제에서 `useGlobalGuards()`할 때처럼 모든 모듈의 바깥에서 등록된 전역 가드는 의존성을 주입시킬 수 없습니다. 가드가 등록되는 일이 모든 모듈의 컨텍스트 바깥에서 일어나기 때문입니다. 이 이슈를 해결하려면 아래와 같이 모듈에서 가드를 직접 적용시켜야 합니다:
 
 ```typescript
 @@filename(app.module)
@@ -137,16 +137,13 @@ import { APP_GUARD } from '@nestjs/core';
 export class AppModule {}
 ```
 
-> info **Hint** When using this approach to perform dependency injection for the guard, note that regardless of the
-> module where this construction is employed, the guard is, in fact, global. Where should this be done? Choose the module
-> where the guard (`RolesGuard` in the example above) is defined. Also, `useClass` is not the only way of dealing with
-> custom provider registration. Learn more [here](/fundamentals/custom-providers).
+> info **힌트** 가드에 대한 의존성 주입을 위해 이러한 접근을 사용할 때 유념해야 할 점은 어느 모듈에서 적용하든 간에 그 가드는 사실 전역적이라는 것입니다. 그렇다면 위와 같은 작업은 어디서 해야 할까요? 우선 가드(위 에제에서는 `RolesGuard`)가 정의될 모듈을 선택합니다. 또한 `useClass`는 사용자 정의 프로바이더를 등록하는 유일한 방법이 아닙니다. 사용자 정의 프로바이더에 관한 자세한 정보는 [여기](/fundamentals/custom-providers)를 참조하세요.
 
-#### Setting roles per handler
+#### 핸들러마다 역할 지정하기
 
-Our `RolesGuard` is working, but it's not very smart yet. We're not yet taking advantage of the most important guard feature - the [execution context](/fundamentals/execution-context). It doesn't yet know about roles, or which roles are allowed for each handler. The `CatsController`, for example, could have different permission schemes for different routes. Some might be available only for an admin user, and others could be open for everyone. How can we match roles to routes in a flexible and reusable way?
+우리의 `RolesGuard`는 동작은 하지만 아직은 그다지 똑똑하지 않습니다. 아직 가드의 중요한 기능인 [실행 컨텍스트](/fundamentals/execution-context)를 활용하지 않았기 때문이죠. 우리의 가드는 아직 각 핸들러마다 허용할 사용자의 역할에 대해 알지 못합니다. 예를 들어 `CatsController`의 각 라우터마다 다른 권한 규격을 가지게 하려고 합니다. 몇몇 핸들러는 관리자만 사용할 수 있고, 나머지는 모든 사용자가 이용할 수 있습니다. 어떻게 하면 유연하고 재사용 가능하게 관리자나 일반사용자 같은 역할을 라우트에 매칭시킬 수 있을까요?
 
-This is where **custom metadata** comes into play (learn more [here](https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata)). Nest provides the ability to attach custom **metadata** to route handlers through the `@SetMetadata()` decorator. This metadata supplies our missing `role` data, which a smart guard needs to make decisions. Let's take a look at using `@SetMetadata()`:
+바로 여기에서 **사용자 정의 메타데이터**를 사용합니다(사용자 정의 메타데이터에 대한 자세한 내용은 [여기](https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata)를 참조하세요). Nest에서는 `@SetMetadata()` 데코레이터를 이용하여 라우트 핸들러에 사용자 정의 **메타데이터**를 붙일 수 있습니다. 이 메타데이터는 우리가 놓치고 있던 `role`데이터를 제공해 주며 우리의 가드는 비로소 똑똑하게 결정을 내릴 수 있게 됩니다. `@SetMetadata()`를 어떻게 사용하는 지 살펴봅시다:
 
 ```typescript
 @@filename(cats.controller)
@@ -164,9 +161,9 @@ async create(createCatDto) {
 }
 ```
 
-> info **Hint** The `@SetMetadata()` decorator is imported from the `@nestjs/common` package.
+> info **힌트** `@SetMetadata()` 데코레이터는 `@nestjs/common` 패키지에서 import합니다.
 
-With the construction above, we attached the `roles` metadata (`roles` is a key, while `['admin']` is a particular value) to the `create()` method. While this works, it's not good practice to use `@SetMetadata()` directly in your routes. Instead, create your own decorators, as shown below:
+위와 같이 작성하면 `roles`라는 메타데이터(`roles`는 key이고, `['admin]`은 그 값입니다)가 `create()`메서드에 붙게 됩니다. 이러한 작업을 할 때, `@SetMetadata()`를 직접 라우트에 명시하는 것은 그다지 좋은 활용이 아닙니다. 대신에, 아래와 같이 자신만의 데코레이터를 작성합니다:
 
 ```typescript
 @@filename(roles.decorator)
@@ -179,7 +176,7 @@ import { SetMetadata } from '@nestjs/common';
 export const Roles = (...roles) => SetMetadata('roles', roles);
 ```
 
-This approach is much cleaner and more readable, and is strongly typed. Now that we have a custom `@Roles()` decorator, we can use it to decorate the `create()` method.
+이와 같이 접근하면 훨씬 깔끔하고 가독성이 좋으며 타입을 더욱 엄격하게 관리할 수 있습니다. 이제 `@Roles()`라는 사용자 정의 데코레이터가 생겼고, 이를 `create()`메서드에 붙일 수 있습니다.
 
 ```typescript
 @@filename(cats.controller)
