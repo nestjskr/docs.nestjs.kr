@@ -194,9 +194,9 @@ async create(createCatDto) {
 }
 ```
 
-#### Putting it all together
+#### 지금까지의 모든 것들을 적용하기
 
-Let's now go back and tie this together with our `RolesGuard`. Currently, it simply returns `true` in all cases, allowing every request to proceed. We want to make the return value conditional based on the comparing the **roles assigned to the current user** to the actual roles required by the current route being processed. In order to access the route's role(s) (custom metadata), we'll use the `Reflector` helper class, which is provided out of the box by the framework and exposed from the `@nestjs/core` package.
+`RolesGuard`를 작성했던 곳으로 돌아가 봅시다. 아직까지는 단순하게 `true`만 반환하기 때문에 모든 요청이 처리됩니다. 이제는 **현재 사용자의 역할**과 처리될 예정인 라우트가 요구하는 역할을 비교하여 상황에 따라 다른 값을 반환하게 만들려고 합니다. 라우트의 역할(사용자 정의 메타데이터)에 접근하기 위해서는 `Reflector`라는 헬퍼 클래스를 사용해야 합니다. 이 클래스는 별도의 작업 없이 그저 `@nestjs/core`에서 가져다 사용하기만 하면 됩니다.
 
 ```typescript
 @@filename(roles.guard)
@@ -240,13 +240,13 @@ export class RolesGuard {
 }
 ```
 
-> info **Hint** In the node.js world, it's common practice to attach the authorized user to the `request` object. Thus, in our sample code above, we are assuming that `request.user` contains the user instance and allowed roles. In your app, you will probably make that association in your custom **authentication guard** (or middleware). Check [this chapter](/security/authentication) for more information on this topic.
+> info **힌트** node.js 세계에서는 `request`객체에 프로퍼티들을 붙이는 경험을 흔하게 합니다. 따라서, 위의 에제에서는 `request.user`에 사용자의 인스턴스와 역할이 포함되어 있다고 가정합니다. 사용자 정의 **인증 가드**(또는 미들웨어)에서 관련 기능을 구현하게 될 것입니다. 해당 주제에 대한 자세한 정보는 [이 챕터](/security/authentication)에서 확인해 주세요.
 
-> warning **Warning** The logic inside the `matchRoles()` function can be as simple or sophisticated as needed. The main point of this example is to show how guards fit into the request/response cycle.
+> warning **주의** `matchRoels()` 함수 내부 로직은 필요에 따라 단순할 수도 복잡할 수도 있습니다. 중요한 건 이 예제는 그저 가드를 요청부터 응답까지의 사이클 속에 끼워 맞추는지 보여주기 위함입니다.
 
-Refer to the <a href="https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata">Reflection and metadata</a> section of the **Execution context** chapter for more details on utilizing `Reflector` in a context-sensitive way.
+`Reflector`를 컨텍스트에 따라 다르게 활용하는 방법과 같이 보다 세부적인 내용은 **실행 컨텍스트** 챕터의 <a href="https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata">Reflection과 메타데이터</a> 섹션에서 확인하실 수 있습니다.
 
-When a user with insufficient privileges requests an endpoint, Nest automatically returns the following response:
+권한이 불충분한 사용자가 요청을 한다면 Nest가 알아서 다음의 응답을 보냅니다:
 
 ```typescript
 {
@@ -256,12 +256,12 @@ When a user with insufficient privileges requests an endpoint, Nest automaticall
 }
 ```
 
-Note that behind the scenes, when a guard returns `false`, the framework throws a `ForbiddenException`. If you want to return a different error response, you should throw your own specific exception. For example:
+가드가 `false`를 반환하면 프레임워크 내부적으로 `ForbiddenException`예외를 발생시킨다는 것을 기억하시길 바랍니다. 다른 에러를 응답하고 싶다면 아래 예시처럼 원하는 예외를 발생시키면 됩니다.
 
 ```typescript
 throw new UnauthorizedException();
 ```
 
-Any exception thrown by a guard will be handled by the [exceptions layer](/exception-filters) (global exceptions filter and any exceptions filters that are applied to the current context).
+가드에서 발생시킨 예외는 [예외 계층](/exception-filters)(전역 예외 필터와 현재 컨텍스트에 적용된 예외 필터들)에서 처리됩니다.
 
-> info **Hint** If you are looking for a real-world example on how to implement authorization, check [this chapter](/security/authorization).
+> info **힌트** 실무에서 인가를 어떻게 구현하는지 알고 싶다면 [이 챕터](/security/authorization)를 확인해 보세요.
