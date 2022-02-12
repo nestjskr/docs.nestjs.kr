@@ -1,79 +1,79 @@
-### Encryption and Hashing
+### 암호화와 해싱
 
-**Encryption** is the process of encoding information. This process converts the original representation of the information, known as plaintext, into an alternative form known as ciphertext. Ideally, only authorized parties can decipher a ciphertext back to plaintext and access the original information. Encryption does not itself prevent interference but denies the intelligible content to a would-be interceptor. Encryption is a two-way function; what is encrypted can be decrypted with the proper key.
+**암호화**는 정보를 인코딩하는 작업입니다. 이 작업은 평문이라 불리는 정보의 원래 표현을 암호문이라 불리는 또다른 형태로 변환합니다. 이상적으로는 승인된 당사자만이 암호문을 다시 평문으로 해독하여 원본 정보에 액세스할 수 있습니다. 암호화는 그 자체로 간섭을 막지는 못하지만, 잠재적인 인터셉터가 이해할 수 있는 내용은 거부합니다. 암호화는 양방향 기능입니다. 이는 암호화된 내용을 적절한 키를 사용하여 복호화할 수 있다는 것입니다.
 
-**Hashing** is the process of converting a given key into another value. A hash function is used to generate the new value according to a mathematical algorithm. Once hashing has been done, it should be impossible to go from the output to the input.
+**해싱**은 주어진 키를 다른 값으로 변환하는 작업입니다. 이 때 수학적인 알고리즘에 따라 새로운 값을 생성하는 역할을 하는 것이 해시 함수입니다. 해싱되고 나면 그 결과를 가지고 다시 입력값을 구해낼 수 없습니다.
 
-#### Encryption
+#### 암호화
 
-Node.js provides a built-in [crypto module](https://nodejs.org/api/crypto.html) that you can use to encrypt and decrypt strings, numbers, buffers, streams, and more. Nest itself does not provide any additional package on top of this module to avoid introducing unnecessary abstractions.
+Node.js는 문자열, 숫자, 버퍼, 스트림 등을 암호화 및 복호화할 수 있는 [crypto 모듈](https://nodejs.org/api/crypto.html)을 자체적으로 제공합니다. Nest 자체는 불필요한 추상화를 피하기 위해 이 모듈 위에서 동작하는 추가적인 패키지를 제공하지는 않습니다.
 
-As an example, let's use AES (Advanced Encryption System) `'aes-256-ctr'` algorithm CTR encryption mode.
+예를 들어, AES (Advanced Encryption System) 알고리즘의 CTR 암호화 모드인 `'aes-256-ctr'`을 사용해 보겠습니다.
 
 ```typescript
-import { createCipheriv, randomBytes, scrypt } from 'crypto';
-import { promisify } from 'util';
+import { createCipheriv, randomBytes, scrypt } from "crypto";
+import { promisify } from "util";
 
 const iv = randomBytes(16);
-const password = 'Password used to generate key';
+const password = "Password used to generate key";
 
 // The key length is dependent on the algorithm.
 // In this case for aes256, it is 32 bytes.
-const key = (await promisify(scrypt)(password, 'salt', 32)) as Buffer;
-const cipher = createCipheriv('aes-256-ctr', key, iv);
+const key = (await promisify(scrypt)(password, "salt", 32)) as Buffer;
+const cipher = createCipheriv("aes-256-ctr", key, iv);
 
-const textToEncrypt = 'Nest';
+const textToEncrypt = "Nest";
 const encryptedText = Buffer.concat([
   cipher.update(textToEncrypt),
   cipher.final(),
 ]);
 ```
 
-Now to decrypt `encryptedText` value:
+이제 `encryptedText`값을 복호화 해보겠습니다:
 
 ```typescript
-import { createDecipheriv } from 'crypto';
+import { createDecipheriv } from "crypto";
 
-const decipher = createDecipheriv('aes-256-ctr', key, iv);
+const decipher = createDecipheriv("aes-256-ctr", key, iv);
 const decryptedText = Buffer.concat([
   decipher.update(encryptedText),
   decipher.final(),
 ]);
 ```
 
-#### Hashing
+#### 해싱
 
-For hashing, we recommend using either the [bcrypt](https://www.npmjs.com/package/bcrypt) or [argon2](https://www.npmjs.com/package/argon2) packages. Nest itself does not provide any additional wrappers on top of these modules to avoid introducing unnecessary abstractions (making the learning curve short).
+해생을 위해서는 [bcrypt](https://www.npmjs.com/package/bcrypt) 패키지나 [argon2](https://www.npmjs.com/package/argon2) 패키지를 사용하기를 권장합니다. Nest 자체는 불필요한 추상화를 피하기 위해 (러닝커브를 완만하게 만들기 위해) 이 모듈들 위에 추가 래퍼를 제공하지 않습니다.
 
-As an example, let's use `bcrypt` to hash a random password.
+예를 들어, 랜덤한 비밀번호를 해싱하기 위해 `bcrypt`를 사용해 보겠습나다.
 
-First install required packages:
+우선 필요한 패키지들을 설치합니다:
 
 ```shell
 $ npm i bcrypt
 $ npm i -D @types/bcrypt
 ```
 
-Once the installation is complete, you can use the `hash` function, as follows:
+설치가 완료되면, 다음과 같이 `hash` 함수를 사용할 수 있습니다:
 
 ```typescript
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from "bcrypt";
 
 const saltOrRounds = 10;
-const password = 'random_password';
+const password = "random_password";
 const hash = await bcrypt.hash(password, saltOrRounds);
 ```
 
-To generate a salt, use the `genSalt` function:
+salt를 생성하려면 `genSalt` 함수를 사용합니다:
 
 ```typescript
 const salt = await bcrypt.genSalt();
 ```
 
-To compare/check a password, use the `compare` function:
+비밀번호를 확인 및 비교하려면 `compare` 함수를 사용합니다:
 
 ```typescript
 const isMatch = await bcrypt.compare(password, hash);
 ```
 
-You can read more about available functions [here](https://www.npmjs.com/package/bcrypt).
+관련하여 [여기](https://www.npmjs.com/package/bcrypt)에서 더 많은 함수들을 확인할 수 있습니다.
