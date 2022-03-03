@@ -87,7 +87,7 @@ export class RolesGuard {
 
 #### Binding guards
 
-Like pipes and exception filters, guards can be **controller-scoped**, method-scoped, or global-scoped. Below, we set up a controller-scoped guard using the `@UseGuards()` decorator. This decorator may take a single argument, or a comma-separated list of arguments. This lets you easily apply the appropriate set of guards with one declaration.
+파이프 및 예외 필터와 마찬가지로 가드는 **컨트롤러 범위(controller-scoped)**, 메소드 범위(method-scoped) 또는 전역 범위(global-scoped) 일 수 있습니다. 아래는 `@UseGuards()`데코레이터를 사용하여 컨트롤러 범위의 보호대를 설정했습니다. 이 데코레이터는 단일 인수 또는 쉼표로 구분된 인수 목록을 사용할 수 있습니다. 이를 통해 한 번의 선언으로 적절한 가드 세트를 쉽게 적용할 수 있습니다.
 
 ```typescript
 @@filename()
@@ -96,9 +96,9 @@ Like pipes and exception filters, guards can be **controller-scoped**, method-sc
 export class CatsController {}
 ```
 
-> info **Hint** The `@UseGuards()` decorator is imported from the `@nestjs/common` package.
+> info **힌트** `@UseGuards()` 데코레이터는 `@nestjs/common` 패키지에서 가져옵니다.
 
-Above, we passed the `RolesGuard` type (instead of an instance), leaving responsibility for instantiation to the framework and enabling dependency injection. As with pipes and exception filters, we can also pass an in-place instance:
+위에서 우리는 인스턴스 대신에 `롤 가드 (RolesGuard)` 타입을 전달하여 프레임워크에 인스턴스화와 의존성 주입을 가능하게 했습니다. 파이프 및 예외 필터와 마찬가지로 내부 인스턴스를 전달할 수도 있습니다.
 
 ```typescript
 @@filename()
@@ -107,9 +107,9 @@ Above, we passed the `RolesGuard` type (instead of an instance), leaving respons
 export class CatsController {}
 ```
 
-The construction above attaches the guard to every handler declared by this controller. If we wish the guard to apply only to a single method, we apply the `@UseGuards()` decorator at the **method level**.
+위의 구성은 이 컨트롤러가 선언한 모든 핸들러에 가드를 연결합니다. 가드가 단일 메소드에만 적용되도록 하려면 **메소드 수준**에서 `@UseGuards()` 데코레이터를 적용합니다.
 
-In order to set up a global guard, use the `useGlobalGuards()` method of the Nest application instance:
+전역 가드를 설정하려면 Nest 애플리케이션 인스턴스의 `useGlobalGuards()`메소드를 사용하십시오.
 
 ```typescript
 @@filename()
@@ -117,9 +117,9 @@ const app = await NestFactory.create(AppModule);
 app.useGlobalGuards(new RolesGuard());
 ```
 
-> warning **Notice** In the case of hybrid apps the `useGlobalGuards()` method doesn't set up guards for gateways and micro services by default (see [Hybrid application](/faq/hybrid-application) for information on how to change this behavior). For "standard" (non-hybrid) microservice apps, `useGlobalGuards()` does mount the guards globally.
+> warning **알림** 하이브리드 앱의 경우 `useGlobalGuards()` 메소드는 기본적으로 게이트웨이 및 마이크로 서비스에 대한 보호를 설정하지 않습니다. ([하이프리드 어플리케이션](faq/hybrid-application)에서 해당 설정 변경에 대한 정보를 볼 수 있습니다.) "표준"(하이브리드가 아닌) 마이크로 서비스 앱의 경우 `useGlobalGuards()` 는 가드를 전역으로 마운트합니다.
 
-Global guards are used across the whole application, for every controller and every route handler. In terms of dependency injection, global guards registered from outside of any module (with `useGlobalGuards()` as in the example above) cannot inject dependencies since this is done outside the context of any module. In order to solve this issue, you can set up a guard directly from any module using the following construction:
+전역 가드는 모든 컨트롤러와 모든 경로 처리기에 대해 전체 응용 프로그램에서 사용됩니다. 의존성 주입의 관점에서, 모듈 외부에서 등록된 전역 가드 (위의 예에서와 같이 `useGlobalGuards()` 로)는 의존성이 주입될 수 없습니다. 이는 모듈의 컨텍스트 밖에서 수행되기 때문입니다. 이 문제를 해결하기 위해 다음 구성을 사용하여 모든 모듈에서 직접 가드를 설정할 수 있습니다.
 
 ```typescript
 @@filename(app.module)
@@ -137,10 +137,10 @@ import { APP_GUARD } from '@nestjs/core';
 export class AppModule {}
 ```
 
-> info **Hint** When using this approach to perform dependency injection for the guard, note that regardless of the
-> module where this construction is employed, the guard is, in fact, global. Where should this be done? Choose the module
-> where the guard (`RolesGuard` in the example above) is defined. Also, `useClass` is not the only way of dealing with
-> custom provider registration. Learn more [here](/fundamentals/custom-providers).
+> info **힌트** 가드에 대한 의존성 주입을 수행하기 위해 이 접근 방식을 사용할 때,
+> 이 구성이 사용되는 모듈에 관계없이, 가드는 전역적입니다.
+> 가드가 (위 예제에서 `RolesGuard`)가 정의된 모듈을 선택하십시오. 또한, 커스텀 프로 바이더 등록을 다루는 유일한 방법은 `useClass`가 아닙니다.
+> 여기에 대해 자세히 알아보십시오 [here](/fundamentals/custom-providers).
 
 #### Setting roles per handler
 
