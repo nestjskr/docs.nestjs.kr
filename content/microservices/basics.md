@@ -1,24 +1,24 @@
-### Overview
+### 개요
 
-In addition to traditional (sometimes called monolithic) application architectures, Nest natively supports the microservice architectural style of development. Most of the concepts discussed elsewhere in this documentation, such as dependency injection, decorators, exception filters, pipes, guards and interceptors, apply equally to microservices. Wherever possible, Nest abstracts implementation details so that the same components can run across HTTP-based platforms, WebSockets, and Microservices. This section covers the aspects of Nest that are specific to microservices.
+Nest는 모놀리식 아키텍쳐라 불리우는 전통적인 방식의 어플리케이션 아키텍쳐 방식 뿐만 아니라 마이크로서비스 아키텍쳐 방식의 개발을 지원합니다. 이 문서에 다루는 모든 것들 (예를 들어, 의존성 주입, 데코레이터, 예외 처리, 파이프, 가드와 인터셉터) 은 마이크로서비스 아키텍쳐에 동일하게 적용이 됩니다. 가능한 모든 상황에서, Nest는 구현에 관한 세부적인 부분들을 추상화하여 동일한 컴포넌트를 HTTP기반의 플랫폼, 웹소켓 및 마이크로서비스에서 실행할 수 있도록 합니다. 이 섹션에서는 Nest의 마이크로서비스 관련한 부분을 설명합니다.
 
-In Nest, a microservice is fundamentally an application that uses a different **transport** layer than HTTP.
+Nest에서는, 마이크로서비스는 기본적으로는 HTTP와 다른 **전송** 계층을 사용하는 어플리케이션입니다.
 
 <figure><img src="/assets/Microservices_1.png" /></figure>
 
-Nest supports several built-in transport layer implementations, called **transporters**, which are responsible for transmitting messages between different microservice instances. Most transporters natively support both **request-response** and **event-based** message styles. Nest abstracts the implementation details of each transporter behind a canonical interface for both request-response and event-based messaging. This makes it easy to switch from one transport layer to another -- for example to leverage the specific reliability or performance features of a particular transport layer -- without impacting your application code.
+Nest는 **트랜스포터**라 불리우는 전송 계층 구현체들을 지원합니다. 트랜스포터란 각각의 마이크로서비스 인스턴스들간의 메시지 전송을 담당하고 있습니다. 대부분의 트랜스포터들은 기본적으로 **요청-응답** 과 **이벤트 기반**의 메시지 전송 스타일을 지원합니다. Nest는 각 트랜스포터의 구현에 대한 세부적인 정보를 추상화하여 요청-응답 및 이벤트 기반 메시지 전송을 지원합니다. 이는 어플리케이션에 영향이 없이 한 전송 계층에서 다른 전송 계층으로의 변환 -- 예로 특정 전송 계층의 확실한 신뢰도나 성능 향상을 위해서 -- 을 쉽게 해줍니다. 
 
-#### Installation
+#### 설치
 
-To start building microservices, first install the required package:
+마이크로서비스를 시작하려면, 다음 필수 패키지를 설치해야합니다:
 
 ```bash
 $ npm i --save @nestjs/microservices
 ```
 
-#### Getting started
+#### 시작하기
 
-To instantiate a microservice, use the `createMicroservice()` method of the `NestFactory` class:
+마이크로서비스를 시작하려면, `NestFactory` 클래스의 `createMicroservice()` 메서드를 사용합니다:
 
 ```typescript
 @@filename(main)
@@ -50,40 +50,39 @@ async function bootstrap() {
 bootstrap();
 ```
 
-> info **Hint** Microservices use the **TCP** transport layer by default.
+> 정보 **힌트** 마이크로서비스는 기본적으로 **TCP** 전송 계층을 사용합니다.
 
-The second argument of the `createMicroservice()` method is an `options` object. This object may consist of two members:
+`createMicroservice()` 메서드의 두번째 인자는 `options` 객체입니다. 이 인자는 두 개의 멤버로 구성될 수 있습니다:
 
 <table>
   <tr>
     <td><code>transport</code></td>
-    <td>Specifies the transporter (for example, <code>Transport.NATS</code>)</td>
+    <td>특정 트랜스포터 (예로, <code>Transport.NATS</code>)</td>
   </tr>
   <tr>
     <td><code>options</code></td>
-    <td>A transporter-specific options object that determines transporter behavior</td>
+    <td>트랜스포터의 행동을 결정하는 `options` 객체</td>
   </tr>
 </table>
 <p>
-  The <code>options</code> object is specific to the chosen transporter. The <strong>TCP</strong> transporter exposes
-  the properties described below.  For other transporters (e.g, Redis, MQTT, etc.), see the relevant chapter for a description of the available options.
+  <code>options</code> 객체는 선택된 트랜스포터에 따라 특정됩니다. <strong>TCP</strong> 트랜스포터의 경우에는 다음과 같은 프로퍼티를 제공합니다. 다른 트랜스포터의 경우는 (예를 들어, Redis, MQTT, 기타등등), 해당 관련있는 챕터의 설명을 참조하세요.
 </p>
 <table>
   <tr>
     <td><code>host</code></td>
-    <td>Connection hostname</td>
+    <td>Connection 호스트 이름</td>
   </tr>
   <tr>
     <td><code>port</code></td>
-    <td>Connection port</td>
+    <td>Connection 포트</td>
   </tr>
   <tr>
     <td><code>retryAttempts</code></td>
-    <td>Number of times to retry message (default: <code>0</code>)</td>
+    <td>메시지 재시도 횟수 (기본값: <code>0</code>)</td>
   </tr>
   <tr>
     <td><code>retryDelay</code></td>
-    <td>Delay between message retry attempts (ms) (default: <code>0</code>)</td>
+    <td>메시지 재시도 횟수간의 시간 간격 (ms) (기본값: <code>0</code>)</td>
   </tr>
 </table>
 
@@ -320,7 +319,7 @@ async publish() {
 }
 ```
 
-The `emit()` method takes two arguments, `pattern` and `payload`. The `pattern`should match one defined in an `@EventPattern()` decorator. The `payload` is an event payload that we want to transmit to the remote microservice. This method returns a **hot `Observable`** (unlike the cold `Observable` returned by `send()`), which means that whether or not you explicitly subscribe to the observable, the proxy will immediately try to deliver the event.
+The `emit()` method takes two arguments, `pattern` and `payload`. The `pattern` should match one defined in an `@EventPattern()` decorator. The `payload` is an event payload that we want to transmit to the remote microservice. This method returns a **hot `Observable`** (unlike the cold `Observable` returned by `send()`), which means that whether or not you explicitly subscribe to the observable, the proxy will immediately try to deliver the event.
 
 <app-banner-shop></app-banner-shop>
 
