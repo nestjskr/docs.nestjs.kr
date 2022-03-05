@@ -86,9 +86,9 @@ bootstrap();
   </tr>
 </table>
 
-#### Patterns
+#### 패턴
 
-Microservices recognize both messages and events by **patterns**. A pattern is a plain value, for example, a literal object or a string. Patterns are automatically serialized and sent over the network along with the data portion of a message. In this way, message senders and consumers can coordinate which requests are consumed by which handlers.
+마이크로서비스는 **패턴들**을 통해서 메시지들과 이벤트들을 인식합니다. 패턴이란 문자열, 객체 리터럴와 같은 평범한 값입니다. 패턴들은 자동적으로 직럴화되고 메시지의 데이터 부분과 함께 네트워크에 전송됩니다. 이러한 방식으로 메시지 송신자와 수신자가 어떤 요청을 어떤 핸들러를 통해 처리할지 조정할 수 있습니다.
 
 #### Request-response
 
