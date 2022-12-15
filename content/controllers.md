@@ -40,7 +40,7 @@ export class CatsController {
 
 > info **힌트** CLI를 이용해 컨트롤러를 만들기 위해서는 `$ nest g controller cats` 명령어를 입력하세요.
 
-The `@Get()` HTTP request method decorator before the `findAll()` method tells Nest to create a handler for a specific endpoint for HTTP requests. The endpoint corresponds to the HTTP request method (GET in this case) and the route path. What is the route path? The route path for a handler is determined by concatenating the (optional) prefix declared for the controller, and any path specified in the method's decorator. Since we've declared a prefix for every route ( `cats`), and haven't added any path information in the decorator, Nest will map `GET /cats` requests to this handler. As mentioned, the path includes both the optional controller path prefix **and** any path string declared in the request method decorator. For example, a path prefix of `customers` combined with the decorator `@Get('profile')` would produce a route mapping for requests like `GET /customers/profile`.
+`@Get()`이라는 HTTP 요청 메소드 데코레이터는 네스트로 하여금 HTTP 요청을 위한 엔드포인트를 생성합니다. 이러한 엔드포인트는 `@Get()`과 같은 HTTP 요청 메소드 데코레이터와 '라우트 경로'에 반응합니다. 라우트 경로는 컨트롤러에서 선언된 접두사와 메소드 데코레이터에서 선언된 경로가 합쳐진 형태를 의미합니다. 윗 문단에서 언급했듯이 (`cats`) 접두사를 선언한 상태에서 데코레이터에 아무런 경로 정보가 없다면, 네스트는 `GET /cats` 라는 경로에 대한 요청을 실행할 것입니다. 또한 (`customers`) 라는 접두사를 선언한 상황에서 `@Get('profile')` 데코레이터와 조합되면 `GET /customers/profile` 이라는 경로에 대해 요청할 것입니다.
 
 In our example above, when a GET request is made to this endpoint, Nest routes the request to our user-defined `findAll()` method. Note that the method name we choose here is completely arbitrary. We obviously must declare a method to bind the route to, but Nest doesn't attach any significance to the method name chosen.
 
