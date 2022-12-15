@@ -31,5 +31,6 @@ NestJS 한국어 매뉴얼은 영문 매뉴얼과 동일하게 `MIT 라이센스
 
 NestJS 번역에 관련된 커뮤니티는 이 레포지토리의 [Discussions](https://github.com/nestjskr/docs.nestjs.kr/discussions) 을 활용합니다.
 
+* [NestJS Korea 슬랙 참여하기](https://join.slack.com/t/nestjskorea/shared_invite/zt-1i1rac8s3-EOHU_8SKjNsgtoeHtnS1Hg)
 * [NestJS Korea 카카오톡 오픈 채팅방](https://open.kakao.com/o/ggLiN79c)
 * [NestJS 한국어 메뉴얼 번역 Discussions](https://github.com/nestjskr/docs.nestjs.kr/discussions)
